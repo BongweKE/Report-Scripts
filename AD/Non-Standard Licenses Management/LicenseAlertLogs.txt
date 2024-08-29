@@ -1,0 +1,65 @@
+
+Date: 17-10-2023
+Beginning exeuction of the script...
+User:Marion_Kihori User_Email_Address:M.KIHORI@cifor-icraf.org  Account_Expiry_Date:16-11-2023 Supervisor_Email_Address:D.onyoni@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Lourdes_Quiñones  User_Email_Address:L.Quinones@cifor-icraf.org  Account_Expiry_Date:16-11-2023 Supervisor_Email_Address:V.Robiglio@cifor-icraf.org HR_Focal_Point_Email_address:m.aleman@cifor-icraf.org
+User:Lourdes_Quiñones  User_Email_Address:L.Quinones@cifor-icraf.org  Account_Expiry_Date:16-11-2023 Supervisor_Email_Address:V.Robiglio@cifor-icraf.org HR_Focal_Point_Email_address:m.aleman@cifor-icraf.org
+User:Njeri_Kibathi User_Email_Address:N.Kibathi@cifor-icraf.org  Account_Expiry_Date:17-11-2023 Supervisor_Email_Address:A.Kubwimana@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Amit Kumar_Chauhan User_Email_Address:A.Chauhan@cifor-icraf.org  Account_Expiry_Date:16-11-2023 Supervisor_Email_Address:J.Noor@cifor-icraf.org HR_Focal_Point_Email_address:m.adhikari@cifor-icraf.org
+User:Fredrick_Mwingirwa User_Email_Address:F.Mwingirwa@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:C.Mwangi@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Rose_Onyango User_Email_Address:R.Onyango@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:R.Klaver@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Modibo _Keita User_Email_Address:M.K.Keita@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Chabi@cifor-icraf.org HR_Focal_Point_Email_address:s.camara@cifor-icraf.org
+User:Colombe_Loba User_Email_Address:C.Loba@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:M.Guede@cifor-icraf.org HR_Focal_Point_Email_address:s.camara@cifor-icraf.org
+User:Colombe_Loba User_Email_Address:C.Loba@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:M.Guede@cifor-icraf.org HR_Focal_Point_Email_address:s.camara@cifor-icraf.org
+User:Maya_Terra User_Email_Address:M.Terra@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Maya_Terra User_Email_Address:M.Terra@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Esther _Kamwilu User_Email_Address:E.Kamwilu@cifor-icraf.org  Account_Expiry_Date:31-10-2023 Supervisor_Email_Address:A.Minang@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Esther _Kamwilu User_Email_Address:E.Kamwilu@cifor-icraf.org  Account_Expiry_Date:31-10-2023 Supervisor_Email_Address:A.Minang@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Violet_Mtui User_Email_Address:V.Mtui@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Kimaro@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Saulo_Souza User_Email_Address:S.Souza@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Martin_Meier User_Email_Address:M.Meier@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Deepak_Dayanandan User_Email_Address:D.Dayanandan@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:C.Biradar@cifor-icraf.org HR_Focal_Point_Email_address:m.adhikari@cifor-icraf.org
+User:Godfrey_Natwaluma User_Email_Address:G.Natwaluma@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:E.Acanakwo@cifor-icraf.org HR_Focal_Point_Email_address:i.wokorach@cifor-icraf.org
+User:Godfrey_Natwaluma User_Email_Address:G.Natwaluma@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:E.Acanakwo@cifor-icraf.org HR_Focal_Point_Email_address:i.wokorach@cifor-icraf.org
+User:Godfrey_Natwaluma User_Email_Address:G.Natwaluma@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:E.Acanakwo@cifor-icraf.org HR_Focal_Point_Email_address:i.wokorach@cifor-icraf.org
+User:Kepta Muia_ User_Email_Address:K.Muia@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Becky Abraham_ User_Email_Address:B.Abraham@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Daphne Okwaro_ User_Email_Address:D.Okwaro@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Patricia Onduu_ User_Email_Address:P.Onduu@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:James_Adema User_Email_Address:J.Adema@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Sharon_Akoth User_Email_Address:S.Akoth@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Ambrose_Mwangi User_Email_Address:A.Mwangi@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+Completed exeuction of the script
+
+
+Date: 18-10-2023
+Beginning exeuction of the script...
+User:Njeri_Kibathi User_Email_Address:N.Kibathi@cifor-icraf.org  Account_Expiry_Date:17-11-2023 Supervisor_Email_Address:A.Kubwimana@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Fredrick_Mwingirwa User_Email_Address:F.Mwingirwa@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:C.Mwangi@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Rose_Onyango User_Email_Address:R.Onyango@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:R.Klaver@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Modibo _Keita User_Email_Address:M.K.Keita@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Chabi@cifor-icraf.org HR_Focal_Point_Email_address:s.camara@cifor-icraf.org
+User:Colombe_Loba User_Email_Address:C.Loba@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:M.Guede@cifor-icraf.org HR_Focal_Point_Email_address:s.camara@cifor-icraf.org
+User:Colombe_Loba User_Email_Address:C.Loba@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:M.Guede@cifor-icraf.org HR_Focal_Point_Email_address:s.camara@cifor-icraf.org
+User:Maya_Terra User_Email_Address:M.Terra@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Maya_Terra User_Email_Address:M.Terra@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Maya_Terra User_Email_Address:M.Terra@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Violet_Mtui User_Email_Address:V.Mtui@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Kimaro@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Martin_Meier User_Email_Address:M.Meier@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Saulo_Souza User_Email_Address:S.Souza@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:A.Miccolis@cifor-icraf.org HR_Focal_Point_Email_address:m.terra@cifor-icraf.org
+User:Deepak_Dayanandan User_Email_Address:D.Dayanandan@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:C.Biradar@cifor-icraf.org HR_Focal_Point_Email_address:m.adhikari@cifor-icraf.org
+User:Godfrey_Natwaluma User_Email_Address:G.Natwaluma@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:E.Acanakwo@cifor-icraf.org HR_Focal_Point_Email_address:i.wokorach@cifor-icraf.org
+User:Godfrey_Natwaluma User_Email_Address:G.Natwaluma@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:E.Acanakwo@cifor-icraf.org HR_Focal_Point_Email_address:i.wokorach@cifor-icraf.org
+User:Godfrey_Natwaluma User_Email_Address:G.Natwaluma@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:E.Acanakwo@cifor-icraf.org HR_Focal_Point_Email_address:i.wokorach@cifor-icraf.org
+User:Wilfred_Chemoiwo User_Email_Address:W.Chemoiwo@cifor-icraf.org  Account_Expiry_Date:02-11-2023 Supervisor_Email_Address:A.Bucci@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Kepta Muia_ User_Email_Address:K.Muia@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Becky Abraham_ User_Email_Address:B.Abraham@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Daphne Okwaro_ User_Email_Address:D.Okwaro@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Patricia Onduu_ User_Email_Address:P.Onduu@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:James_Adema User_Email_Address:J.Adema@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Sharon_Akoth User_Email_Address:S.Akoth@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:Ambrose_Mwangi User_Email_Address:A.Mwangi@cifor-icraf.org  Account_Expiry_Date:01-11-2023 Supervisor_Email_Address:D.Okongo@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+User:_ User_Email_Address:  Account_Expiry_Date: Supervisor_Email_Address: HR_Focal_Point_Email_address:
+User:Barbara_Owuor User_Email_Address:B.Owuor@cifor-icraf.org  Account_Expiry_Date:19-10-2023 Supervisor_Email_Address:w.wambugu@cifor-icraf.org HR_Focal_Point_Email_address:w.wambugu@cifor-icraf.org
+Completed exeuction of the script
+
+

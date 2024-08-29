@@ -1,0 +1,189 @@
+﻿# Load the Import-Excel module
+Import-Module -Name ImportExcel
+$reportDate = Get-Date -Format 'MMMM yyyy'
+$AdminsGroup = 'Domain Admins'
+$reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF Admins\'
+$reportDirectoryCurrent = $reportDirectory + $reportDate + '\'
+$compressDirectory = $reportDirectoryCurrent + '*'
+$compressedDirectory = $reportDirectoryCurrent + 'ADPriviledgedAccountsReport.zip'
+
+#Expired Admin Accounts
+$ExpiredAdmin_Accounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties AccountExpirationDate).AccountExpirationDate -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties AccountExpirationDate).AccountExpirationDate -lt (Get-Date)}
+
+#Active Admin Accounts
+$ActiveAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties LastLogonDate).LastLogonDate -gt (Get-Date).AddDays(-30) -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true }
+
+#Inactive Admin Accounts
+$InactiveAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties LastLogonDate).LastLogonDate -lt (Get-Date).AddDays(-30) -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true}
+
+#Inactive Admin Accounts (60 days)
+$InactiveAdminAccounts_60_days = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties LastLogonDate).LastLogonDate -lt (Get-Date).AddDays(-60) -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true}
+
+# No Expiry Admin Accounts
+$NoExpiryAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties accountExpires).accountExpires -eq 9223372036854775807 -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true}
+
+#Total Admin Accounts Count
+$AdminAccounts = Get-ADGroupMember -Identity $AdminsGroup
+
+#Generate Privileged Accounts Report Object
+$ADPrivilegedAccountsReport = [pscustomobject]@{
+'Report Date' = Get-Date -Format 'dd/MM/yyyy'
+'No of Privileged Accounts' = $AdminAccounts.Count
+'Expired Privileged Accounts' = $ExpiredAdmin_Accounts.Count
+'Active Privileged Accounts' = $ActiveAdminAccounts.Count
+'Dormant Privileged Accounts (30 Days)' = $InactiveAdminAccounts.Count
+'Dormant Privileged Accounts (60 Days)' = $InactiveAdminAccounts_60_days.Count
+'No Expiry Privileged Accounts' = $NoExpiryAdminAccounts.Count
+}
+
+# Archive Privileged Accounts Report in dashboard data source
+$dashboardReportPath = 'C:\Users\lkadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\AD Reports\ad_privileged_accounts_dashboard_data.xlsx'
+
+# Create a new Excel application object
+$excel = New-Object -ComObject Excel.Application
+$excel.Visible = $false
+
+# Open the Excel file
+$workbook = $excel.Workbooks.Open($dashboardReportPath)
+$sheet = $workbook.Worksheets.Item(1)
+
+# Find the last used row in the first column
+$rowMax = $sheet.UsedRange.Rows.Count + 1
+
+# Add the new data to the next row
+$sheet.Cells.Item($rowMax, 1).Value2 = Get-Date -Format 'MM/dd/yyyy'
+$sheet.Cells.Item($rowMax, 2).Value2 = $AdminAccounts.Count.ToString()
+$sheet.Cells.Item($rowMax, 3).Value2 = $ExpiredAdmin_Accounts.Count.ToString()
+$sheet.Cells.Item($rowMax, 4).Value2 = $ActiveAdminAccounts.Count.ToString()
+$sheet.Cells.Item($rowMax, 5).Value2 = $InactiveAdminAccounts.Count.ToString()
+$sheet.Cells.Item($rowMax, 6).Value2 = $InactiveAdminAccounts_60_days.Count.ToString()
+$sheet.Cells.Item($rowMax, 7).Value2 = $NoExpiryAdminAccounts.Count.ToString()
+
+# Save and close the workbook
+$workbook.Save()
+$workbook.Close($true)
+Start-Sleep -Seconds 2
+# Quit Excel and release COM objects
+$excel.Quit()
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($sheet) | Out-Null
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($workbook) | Out-Null
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
+[System.GC]::Collect()
+[System.GC]::WaitForPendingFinalizers()
+
+#Store the report summary in a string
+$reportBody_Summary = @"
+No of Privileged Accounts: $($AdminAccounts.Count)`n
+Expired Privileged Accounts: $($ExpiredAdmin_Accounts.Count)`n
+Active Privileged Accounts: $($ActiveAdminAccounts.Count)`n
+Dormant Privileged Accounts (Not used in the last 30 days): $($InactiveAdminAccounts.Count)`n
+Dormant Privileged Accounts (Not used in the last 60 days): $($InactiveAdminAccounts_60_days.Count)`n
+Privileged Accounts with No Expiry: $($NoExpiryAdminAccounts.Count)
+"@
+
+#Store the report expired accounts in a string
+$reportBody_Expired = ""
+foreach ($account in $ExpiredAdmin_Accounts)
+{
+   $reportBody_Expired += $account.name+"`n"
+}
+
+#Store the report active accounts in a string
+$reportBody_Active = ""
+foreach ($account in $ActiveAdminAccounts)
+{
+   $reportBody_Active += $account.name+"`n"
+}
+
+#Store the report inactive accounts (30 days) in a string
+$reportBody_Inactive = ""
+foreach ($account in $InactiveAdminAccounts)
+{
+   $reportBody_Inactive += $account.name+"`n"
+}
+
+#Store the report inactive accounts (60 days) in a string
+$reportBody_Inactive_60_days = ""
+foreach ($account in $InactiveAdminAccounts_60_days)
+{
+   $reportBody_Inactive_60_days += $account.name+"`n"
+}
+
+#Store the report no expiry accounts in a string
+$reportBody_No_Expiry = ""
+foreach ($account in $NoExpiryAdminAccounts)
+{
+   $reportBody_No_Expiry += $account.name+"`n"
+}
+
+#Generate Report Files
+#Create Directory
+mkdir $reportDirectoryCurrent -Force
+$AdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'All Admin Accounts.csv') -NoTypeInformation
+$ExpiredAdmin_Accounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Expired Admin Accounts.csv') -NoTypeInformation
+$ActiveAdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Active Admin Accounts.csv') -NoTypeInformation
+$InactiveAdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Dormant Admin Accounts (Not used in the last 30 days).csv') -NoTypeInformation
+$InactiveAdminAccounts_60_days | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Dormant Admin Accounts (Not used in the last 60 days).csv') -NoTypeInformation
+$NoExpiryAdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Admin Accounts with No Expiry Date.csv') -NoTypeInformation
+$ADPrivilegedAccountsReport | Export-Csv ($reportDirectoryCurrent + 'Privileged Accounts Full Report.csv') -NoTypeInformation
+
+#Compress The Directory
+Compress-Archive -Path $compressDirectory -DestinationPath $compressedDirectory -Force
+
+#Send Email to Recipients
+$smtpServer = 'SMTP.Office365.com'
+$alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
+$alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
+$mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
+$subject = 'ICRAF Privileged Accounts AD Report - ' + $reportDate
+$ICRAFReportRecipient = @('s.mariwa@cifor-icraf.org','l.kavoo@cifor-icraf.org','z.abidin@cifor-icraf.org','r.kande@cifor-icraf.org','p.oyuko@cifor-icraf.org','t.bandradi@cifor-icraf.org','c.mwangi@cifor-icraf.org')
+$attachments = @($compressedDirectory)
+$message = @"   
+Dear All,
+
+Please find ICRAF Privileged Accounts Active Directory report for $reportDate. You can use the attached report for further details. `r`n
+Your action:- For your respective team:
+i.	Review the membership - Incase of removal or addition, log a call for action at servicedesk@cifor-icraf.org for the amendments.
+ii.	Review the dormancy report - Any dormant account should be disabled if dormant for 60days with the exception of system accounts.
+iii.	Review the Non-expiry report – Any user admin account should have an expiry date consistent with their contract dates.
+`r`n
+------------------------------------------------
+SUMMARY
+------------------------------------------------
+$reportBody_Summary
+
+
+------------------------------------------------
+EXPIRED ACCOUNTS
+------------------------------------------------
+$reportBody_Expired
+
+
+------------------------------------------------
+ACTIVE ACCOUNTS
+------------------------------------------------
+$reportBody_Active
+
+
+------------------------------------------------
+DORMANT ACCOUNTS (NOT USED IN THE LAST 30 DAYS)
+------------------------------------------------
+$reportBody_Inactive
+
+
+------------------------------------------------
+DORMANT ACCOUNTS (NOT USED IN THE LAST 60 DAYS)
+------------------------------------------------
+$reportBody_Inactive_60_days
+
+
+------------------------------------------------
+ACCOUNTS WITH NO EXPIRY DATE
+------------------------------------------------
+$reportBody_No_Expiry
+
+
+CIFOR ICRAF Auto Report
+"@
+
+Send-MailMessage -to $ICRAFReportRecipient -From $alertMailUserName -Subject $subject -Body $message -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential -Attachments $attachments

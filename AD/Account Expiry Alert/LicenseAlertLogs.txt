@@ -1,0 +1,9 @@
+Expiry Warning on Date: 15-01-2024
+User:Samuel_Mariwa User_Email_Address:s.mariwa@cifor-icraf.org  License:Power Automate Per User Plan Start Data:01/15/2024 00:00:00 End Date:01/18/2024 00:00:00
+
+Expiry Warning on Date: 15-01-2024
+User:Samuel_Mariwa User_Email_Address:s.mariwa@cifor-icraf.org  License:Power Automate Per User Plan Start Data:01/15/2024 00:00:00 End Date:01/18/2024 00:00:00
+
+Expiry Alert on Date: 15-01-2024
+User:Lackerry_Kavoo User_Email_Address:l.kavoo@cifor-icraf.org  License:PowerBi Pro Start Data:01/14/2024 00:00:00 End Date:01/15/2024 00:00:00
+
