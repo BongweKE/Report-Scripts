@@ -1,30 +1,99 @@
 ﻿# Load the Import-Excel module
 Import-Module -Name ImportExcel
-$reportDate = Get-Date -Format 'MMMM yyyy'
+$reportDate = (Get-Date).AddMonths(-1) | Get-Date -Format 'MMMM yyyy'
 $AdminsGroup = 'Domain Admins'
 $reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF Admins\'
 $reportDirectoryCurrent = $reportDirectory + $reportDate + '\'
 $compressDirectory = $reportDirectoryCurrent + '*'
 $compressedDirectory = $reportDirectoryCurrent + 'ADPriviledgedAccountsReport.zip'
 
+
+#########################################################################
+# RECHECK ON AD
+#########################################################################
 #Expired Admin Accounts
 $ExpiredAdmin_Accounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties AccountExpirationDate).AccountExpirationDate -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties AccountExpirationDate).AccountExpirationDate -lt (Get-Date)}
 
 #Active Admin Accounts
 $ActiveAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties LastLogonDate).LastLogonDate -gt (Get-Date).AddDays(-30) -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true }
 
-#Inactive Admin Accounts
-$InactiveAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties LastLogonDate).LastLogonDate -lt (Get-Date).AddDays(-30) -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true}
+$dormantThreshold_30_days = (Get-Date).AddDays(-30)
+$dormantThreshold_60_days = (Get-Date).AddDays(-60)
 
-#Inactive Admin Accounts (60 days)
-$InactiveAdminAccounts_60_days = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties LastLogonDate).LastLogonDate -lt (Get-Date).AddDays(-60) -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true}
+# Get all user accounts from the admin group with LastLogonDate and Enabled properties
+$allAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | 
+    Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null } | 
+    Get-ADUser -Properties LastLogonDate, Enabled
 
+# Filter for inactive accounts (regardless of enabled status)
+$InactiveAdminAccounts = $allAdminAccounts | Where-Object { $_.LastLogonDate -lt $dormantThreshold_30_days }
+
+# Filter for inactive and enabled accounts
+$InactiveAdminAccountsEnabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $true }
+
+# Filter for inactive and disabled accounts
+$InactiveAdminAccountsDisabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $false }
+
+# Filter for inactive accounts (60 days) regardless of enabled status
+$InactiveAdminAccounts_60_days = $allAdminAccounts | Where-Object { $_.LastLogonDate -lt $dormantThreshold_60_days }
+
+$InactiveAdminAccounts_60_days_Disabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $false }
+
+$InactiveAdminAccounts_60_days_Enabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $true }
 # No Expiry Admin Accounts
 $NoExpiryAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null -and (Get-ADUser -Identity $_.DistinguishedName -Properties accountExpires).accountExpires -eq 9223372036854775807 -and (Get-ADUser -Identity $_.DistinguishedName -Properties Enabled).Enabled -eq $true}
 
 #Total Admin Accounts Count
 $AdminAccounts = Get-ADGroupMember -Identity $AdminsGroup
+<#
 
+Import-Module ActiveDirectory
+
+$dormantThreshold_30_days = (Get-Date).AddDays(-30)
+$dormantThreshold_60_days = (Get-Date).AddDays(-60)
+
+# Get all user accounts from the admin group with LastLogonDate and Enabled properties
+$allAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | 
+    Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null } | 
+    Get-ADUser -Properties LastLogonDate, Enabled
+
+# Filter for inactive accounts (regardless of enabled status)
+$InactiveAdminAccounts = $allAdminAccounts | Where-Object { $_.LastLogonDate -lt $dormantThreshold_30_days }
+
+# Filter for inactive and enabled accounts
+$InactiveAdminAccountsEnabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $true }
+
+# Filter for inactive and disabled accounts
+$InactiveAdminAccountsDisabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $false }
+
+# Filter for inactive accounts (60 days) regardless of enabled status
+$InactiveAdminAccounts_60_days = $allAdminAccounts | Where-Object { $_.LastLogonDate -lt $dormantThreshold_60_days }
+
+
+$InactiveAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { 
+    $_.ObjectClass -eq 'user' -and 
+    $_.DistinguishedName -ne $null 
+} | Get-ADUser -Properties LastLogonDate, Enabled | Where-Object { 
+    $_.LastLogonDate -lt (Get-Date).AddDays(-30)
+}
+
+$InactiveAdminAccountsEnabled = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { 
+    $_.ObjectClass -eq 'user' -and 
+    $_.DistinguishedName -ne $null 
+} | Get-ADUser -Properties LastLogonDate, Enabled | Where-Object { 
+    $_.LastLogonDate -lt (Get-Date).AddDays(-30) -and
+    $_.Enabled -eq $true
+}
+
+$InactiveAdminAccountsDisabled = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { 
+    $_.ObjectClass -eq 'user' -and 
+    $_.DistinguishedName -ne $null 
+} | Get-ADUser -Properties LastLogonDate, Enabled | Where-Object { 
+    $_.LastLogonDate -lt (Get-Date).AddDays(-30) -and
+    $_.Enabled -eq $false
+}
+
+#>
 #Generate Privileged Accounts Report Object
 $ADPrivilegedAccountsReport = [pscustomobject]@{
 'Report Date' = Get-Date -Format 'dd/MM/yyyy'
@@ -58,6 +127,8 @@ $sheet.Cells.Item($rowMax, 4).Value2 = $ActiveAdminAccounts.Count.ToString()
 $sheet.Cells.Item($rowMax, 5).Value2 = $InactiveAdminAccounts.Count.ToString()
 $sheet.Cells.Item($rowMax, 6).Value2 = $InactiveAdminAccounts_60_days.Count.ToString()
 $sheet.Cells.Item($rowMax, 7).Value2 = $NoExpiryAdminAccounts.Count.ToString()
+$sheet.Cells.Item($rowMax, 8).Value2 = $InactiveAdminAccounts_60_days_Disabled.Count.ToString()
+$sheet.Cells.Item($rowMax, 9).Value2 = $InactiveAdminAccounts_60_days_Enabled.Count.ToString()
 
 # Save and close the workbook
 $workbook.Save()
@@ -78,6 +149,10 @@ Expired Privileged Accounts: $($ExpiredAdmin_Accounts.Count)`n
 Active Privileged Accounts: $($ActiveAdminAccounts.Count)`n
 Dormant Privileged Accounts (Not used in the last 30 days): $($InactiveAdminAccounts.Count)`n
 Dormant Privileged Accounts (Not used in the last 60 days): $($InactiveAdminAccounts_60_days.Count)`n
+Enabled Dormant Privileged Accounts (Not used in the last 30 days): $($InactiveAdminAccountsEnabled.Count.ToString())`n
+Disabled Dormant Privileged Accounts (Not used in the last 30 days): $($InactiveAdminAccountsDisabled.Count.ToString())`n
+Enabled Dormant Privileged Accounts (Not used in the last 60 days): $($InactiveAdminAccounts_60_days_Enabled.Count.ToString())`n
+Disabled Dormant Privileged Accounts (Not used in the last 60 days): $($InactiveAdminAccounts_60_days_Disabled.Count.ToString())`n
 Privileged Accounts with No Expiry: $($NoExpiryAdminAccounts.Count)
 "@
 
@@ -135,13 +210,13 @@ $smtpServer = 'SMTP.Office365.com'
 $alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
 $alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
 $mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
-$subject = 'ICRAF Privileged Accounts AD Report - ' + $reportDate
-$ICRAFReportRecipient = @('s.mariwa@cifor-icraf.org','l.kavoo@cifor-icraf.org','z.abidin@cifor-icraf.org','r.kande@cifor-icraf.org','p.oyuko@cifor-icraf.org','t.bandradi@cifor-icraf.org','c.mwangi@cifor-icraf.org')
+$subject = 'CIFORICRAF Privileged Accounts AD Report - ' + $reportDate
+$ICRAFReportRecipient = @('z.abidin@cifor-icraf.org','r.kande@cifor-icraf.org','p.oyuko@cifor-icraf.org','t.bandradi@cifor-icraf.org','c.mwangi@cifor-icraf.org','l.kavoo@cifor-icraf.org','i.dewantara@cifor-icraf.org','b.obaga@cifor-icraf.org')
 $attachments = @($compressedDirectory)
 $message = @"   
 Dear All,
 
-Please find ICRAF Privileged Accounts Active Directory report for $reportDate. You can use the attached report for further details. `r`n
+Please find CIFORICRAF Privileged Accounts Active Directory report for $reportDate. You can use the attached report for further details. `r`n
 Your action:- For your respective team:
 i.	Review the membership - Incase of removal or addition, log a call for action at servicedesk@cifor-icraf.org for the amendments.
 ii.	Review the dormancy report - Any dormant account should be disabled if dormant for 60days with the exception of system accounts.

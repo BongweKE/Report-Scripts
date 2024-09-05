@@ -1578,3 +1578,289 @@ User:N'guessan, Charles (ICRAF) User_Email_Address:C.Nguessan@cifor-icraf.org  A
 Completed exeuction of the script
 
 
+Date: 31-08-2024
+Beginning exeuction of the script...
+User:Bidder, Bryony (ICRAF) User_Email_Address:B.Bidder@cifor-icraf.org  Alert: Old Activity Date
+User:Umira, Celestine M. (ICRAF) User_Email_Address:C.Umira@cifor-icraf.org  Alert: Old Activity Date
+User:Graudal, Lars (ICRAF) User_Email_Address:L.Graudal@cifor-icraf.org  Alert: Old Activity Date
+User:Toroitich, Gladys (ICRAF) User_Email_Address:G.Toroitich@cifor-icraf.org  Alert: Old Activity Date
+User:Bah, Alagie (ICRAF) User_Email_Address:B.Alagie@cifor-icraf.org  Alert: Old Activity Date
+User:Mwaniki, Catherine (ICRAF) User_Email_Address:C.Mwaniki@cifor-icraf.org  Alert: Old Activity Date
+User:Oyuko, Phillip (ICRAF) User_Email_Address:P.Oyuko@cifor-icraf.org  Alert: Old Activity Date
+User:Muthuri, Catherine (ICRAF) User_Email_Address:C.Muthuri@cifor-icraf.org  Alert: Old Activity Date
+User:Omollo, Brent (ICRAF) User_Email_Address:B.Omollo@cifor-icraf.org  Alert: Old Activity Date
+User:Tsanga, Raphael (CIFOR) User_Email_Address:R.Tsanga@cifor-icraf.org  Alert: Old Activity Date
+User:ICRAF DG Smart Board User_Email_Address:ICRAFDGSmartboard@cifor-icraf.org  Alert: Old Activity Date
+User:Gitonga, Valentine (ICRAF) User_Email_Address:V.Gitonga@cifor-icraf.org  Alert: Old Activity Date
+User:Watson, Catharine (ICRAF) User_Email_Address:C.Watson@cifor-icraf.org  Alert: Old Activity Date
+User:Onkware, Benard (ICRAF) User_Email_Address:B.Onkware@cifor-icraf.org  Alert: Old Activity Date
+User:Kariuki, David (ICRAF) User_Email_Address:D.KARIUKI@cifor-icraf.org  Alert: Old Activity Date
+User:Ateku, Dickens Alubaka (ICRAF) User_Email_Address:D.ATEKU@cifor-icraf.org  Alert: Old Activity Date
+User:Ihli, Hanna (ICRAF) User_Email_Address:H.Ihli@cifor-icraf.org  Alert: Old Activity Date
+User:McMullin, Stepha (ICRAF) User_Email_Address:s.mcmullin@cifor-icraf.org  Alert: Old Activity Date
+User:Kandie, Caren (ICRAF) User_Email_Address:C.Kandie@cifor-icraf.org  Alert: Old Activity Date
+User:Mutanda, Levis (ICRAF) User_Email_Address:L.Mutanda@cifor-icraf.org  Alert: Old Activity Date
+User:Garrity, Dennis (ICRAF) User_Email_Address:D.GARRITY@cifor-icraf.org  Alert: Old Activity Date
+User:Amugune, Ivy (CIFOR) User_Email_Address:I.AMugune@cifor-icraf.org  Alert: Old Activity Date
+User:Minang, Peter (ICRAF) User_Email_Address:A.Minang@cifor-icraf.org  Alert: Old Activity Date
+User:Gituku, Eunice (ICRAF) User_Email_Address:E.Gituku@cifor-icraf.org  Alert: Old Activity Date
+User:Paredes, Ray (ICRAF) User_Email_Address:R.Paredes@cifor-icraf.org  Alert: Old Activity Date
+User:Suber, Marta (ICRAF) User_Email_Address:M.Suber@cifor-icraf.org  Alert: Old Activity Date
+User:Rahman, MdAbiar (ICRAF) User_Email_Address:M.A.Rahman@cifor-icraf.org  Alert: Old Activity Date
+User:Nzore, Michel (ICRAF) User_Email_Address:M.Nzore@cifor-icraf.org  Alert: Old Activity Date
+User:Kouao, Antoine (ICRAF) User_Email_Address:A.Kouao@cifor-icraf.org  Alert: Old Activity Date
+User:Valladares,Maria del Carmen (ICRAF) User_Email_Address:M.Valladares@cifor-icraf.org  Alert: Old Activity Date
+User:Qui?ones, Lourdes(ICRAF) User_Email_Address:L.Quinones@cifor-icraf.org  Alert: Old Activity Date
+User:Kalinganire, Antoine (ICRAF) User_Email_Address:a.kalinganire@cifor-icraf.org  Alert: Old Activity Date
+User:Eponle, Sylvie (ICRAF) User_Email_Address:S.Eponle@cifor-icraf.org  Alert: Old Activity Date
+User:Reyes, Martin (ICRAF) User_Email_Address:martin.reyes@cifor-icraf.org  Alert: Old Activity Date
+User:Kouassi, Ouffouet (ICRAF) User_Email_Address:O.Kouassi@cifor-icraf.org  Alert: Old Activity Date
+User:Katema, Christopher (ICRAF) User_Email_Address:c.katema@cifor-icraf.org  Alert: Old Activity Date
+User:Seboka, Tiglu (ICRAF-Ethiopia) User_Email_Address:T.Seboka@cifor-icraf.org  Alert: Old Activity Date
+User:Aliev, Kumar (ICRAF) User_Email_Address:K.Aliev@cifor-icraf.org  Alert: Old Activity Date
+User:Vasquez, Doris (ICRAF) User_Email_Address:D.Vasquez@cifor-icraf.org  Alert: Old Activity Date
+User:Prakash  Mehra, Satya (ICRAF) User_Email_Address:S.Mehra@cifor-icraf.org  Alert: Old Activity Date
+User:Bolou, Antoine (ICRAF) User_Email_Address:A.Bolou@cifor-icraf.org  Alert: Old Activity Date
+User:Bamba, Tia (ICRAF User_Email_Address:T.Bamba@cifor-icraf.org  Alert: Old Activity Date
+User:Nzi, Jean Claude (ICRAF) User_Email_Address:J.Nzi@cifor-icraf.org  Alert: Old Activity Date
+User:Kobugabe, Fatihah (ICRAF) User_Email_Address:F.Kobugabe@cifor-icraf.org  Alert: Old Activity Date
+User:Arriaga Rodriguez, Alejandra (ICRAF) User_Email_Address:A.Arriaga@cifor-icraf.org  Alert: Old Activity Date
+User:Biradar, Chandrashekhar (CIFOR-ICRAF) User_Email_Address:C.Biradar@cifor-icraf.org  Alert: Old Activity Date
+User:Tchuenga, Thierry Gaitan (ICRAF) User_Email_Address:T.Tchuenga@cifor-icraf.org  Alert: Old Activity Date
+User:Malesu, Maimbo (ICRAF) User_Email_Address:M.Malesu@cifor-icraf.org  Alert: Old Activity Date
+User:Yao, Landry (IITA-ICRAF) User_Email_Address:L.K.Yao@cifor-icraf.org  Alert: Old Activity Date
+User:Otieno, Mariah (CIFOR-ICRAF) User_Email_Address:M.Otieno@cifor-icraf.org  Alert: Low Utilization  Utilization:0.78GB
+User:Wambua, Yvonne (ICRAF) User_Email_Address:Y.Wambua@cifor-icraf.org  Alert: Low Utilization  Utilization:0.51GB
+User:Kendi, Nikita (ICRAF) User_Email_Address:N.Kendi@cifor-icraf.org  Alert: Low Utilization  Utilization:3.32GB
+User:Kirimi, Gakii (ICRAF) User_Email_Address:G.Kirimi@cifor-icraf.org  Alert: Low Utilization  Utilization:0.48GB
+User:Oketch, Daniel (ICRAF) User_Email_Address:D.Oketch@cifor-icraf.org  Alert: Low Utilization  Utilization:0.76GB
+User:Liria, Monica (ICRAF) User_Email_Address:M.Liria@cifor-icraf.org  Alert: Low Utilization  Utilization:0.05GB
+User:Odhiambo, Joy (ICRAF) User_Email_Address:J.Odhiambo@cifor-icraf.org  Alert: Low Utilization  Utilization:0.82GB
+User:Ali, Shamim (ICRAF) User_Email_Address:S.Ali@cifor-icraf.org  Alert: Low Utilization  Utilization:0.23GB
+User:Sekemia, Gregory (ICRAF) User_Email_Address:G.Sekemia@cifor-icraf.org  Alert: Low Utilization  Utilization:0.44GB
+User:Anjeo, Bill (ICRAF) User_Email_Address:B.Anjeo@cifor-icraf.org  Alert: Low Utilization  Utilization:0.91GB
+User:CIFORICRAFAutoreport User_Email_Address:CIFORICRAFAutoreport@cifor-icraf.org  Alert: Low Utilization  Utilization:0.48GB
+User:Linden, Hanna (ICRAF) User_Email_Address:H.Linden@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Kamande, James (ICRAF) User_Email_Address:J.Kamande@cifor-icraf.org  Alert: Low Utilization  Utilization:0.04GB
+User:Thuita, Alice (ICRAF) User_Email_Address:A.Thuita@cifor-icraf.org  Alert: Low Utilization  Utilization:1.77GB
+User:Musau, Joshua (ICRAF) User_Email_Address:J.Musau@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Onyach, Benard (ICRAF) User_Email_Address:B.Onyach@cifor-icraf.org  Alert: Low Utilization  Utilization:2.19GB
+User:Rutenberg, Isaac (ICRAF) User_Email_Address:I.Rutenberg@cifor-icraf.org  Alert: Low Utilization  Utilization:0.02GB
+User:Ndegwa, James (ICRAF) User_Email_Address:J.Ndegwa@cifor-icraf.org  Alert: Low Utilization  Utilization:1.89GB
+User:Kamau, Lisa W. (ICRAF) User_Email_Address:L.W.Kamau@cifor-icraf.org  Alert: Low Utilization  Utilization:0.34GB
+User:Mukhwana, Laura (ICRAF) User_Email_Address:L.Mukhwana@cifor-icraf.org  Alert: Low Utilization  Utilization:1.27GB
+User:Nafula, Brenda (ICRAF) User_Email_Address:B.Nafula@cifor-icraf.org  Alert: Low Utilization  Utilization:1.74GB
+User:Sando, Patrick (ICRAF) User_Email_Address:P.Sando@cifor-icraf.org  Alert: Low Utilization  Utilization:0.04GB
+User:Musembi, Kelvin (ICRAF) User_Email_Address:K.Musembi@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Atieno, Nancy (ICRAF) User_Email_Address:N.Atieno@cifor-icraf.org  Alert: Low Utilization  Utilization:0.48GB
+User:Kollegala, Revathi (ICRAF) User_Email_Address:R.Kollegala@cifor-icraf.org  Alert: Low Utilization  Utilization:1.86GB
+User:Leitoro, Adrian (CIFOR) User_Email_Address:A.Leitoro@cifor-icraf.org  Alert: Low Utilization  Utilization:0.58GB
+User:Ndungu, Jemimah (ICRAF) User_Email_Address:J.Ndungu@cifor-icraf.org  Alert: Low Utilization  Utilization:3.11GB
+User:Irungu, Beatrice (ICRAF) User_Email_Address:B.Irungu@cifor-icraf.org  Alert: Low Utilization  Utilization:2.19GB
+User:Wangatia, Brian (ICRAF) User_Email_Address:B.Wangatia@cifor-icraf.org  Alert: Low Utilization  Utilization:2.3GB
+User:Yi Soto, Ana (CIFOR) User_Email_Address:A.Yisoto@cifor-icraf.org  Alert: Low Utilization  Utilization:0.44GB
+User:Edel, Immaculate (ICRAF) User_Email_Address:I.Edel@cifor-icraf.org  Alert: Low Utilization  Utilization:4.73GB
+User:Ongom, Chrispus (ICRAF) User_Email_Address:C.Ongom@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Cheruiyot, Victor (ICRAF) User_Email_Address:V.Cheruiyot@cifor-icraf.org  Alert: Low Utilization  Utilization:1.15GB
+User:Trautman, Sabrina (ICRAF) User_Email_Address:S.Trautman@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Buleti, Sylvia (ICRAF) User_Email_Address:S.Buleti@cifor-icraf.org  Alert: Low Utilization  Utilization:1.12GB
+User:Atandi, Dominic (ICRAF) User_Email_Address:D.Atandi@cifor-icraf.org  Alert: Low Utilization  Utilization:0.24GB
+User:Muthini, Ann (CIFOR) User_Email_Address:A.Muthini@cifor-icraf.org  Alert: Low Utilization  Utilization:4.28GB
+User:Lara, Francisco (CIFOR-ICRAF) User_Email_Address:F.Lara@cifor-icraf.org  Alert: Low Utilization  Utilization:0.01GB
+User:Wabucheri, Emmie (ICRAF) User_Email_Address:E.Wabucheri@cifor-icraf.org  Alert: Low Utilization  Utilization:0.35GB
+User:Kamau, Pius (ICRAF) User_Email_Address:P.Kamau@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Ndubi, Betty (ICRAF) User_Email_Address:B.Ndubi@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Mwathi, Janet (ICRAF) User_Email_Address:J.Mwathi@cifor-icraf.org  Alert: Low Utilization  Utilization:0.57GB
+User:Momanyi, Dorah (ICRAF) User_Email_Address:D.Momanyi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.42GB
+User:Olekuyoni, Irene (ICRAF) User_Email_Address:I.Olekuyoni@cifor-icraf.org  Alert: Low Utilization  Utilization:1.24GB
+User:Neely, Constance (ICRAF) User_Email_Address:C.Neely@cifor-icraf.org  Alert: Low Utilization  Utilization:1.92GB
+User:Magondu, Daphne (ICRAF) User_Email_Address:D.Magondu@cifor-icraf.org  Alert: Low Utilization  Utilization:1.45GB
+User:Crossland, Mary (ICRAF) User_Email_Address:M.Crossland@cifor-icraf.org  Alert: Low Utilization  Utilization:4.02GB
+User:Kumar, Sandhya (ICRAF) User_Email_Address:S.Kumar@cifor-icraf.org  Alert: Low Utilization  Utilization:0.09GB
+User:Chemoiwo, Kiptoo (ICRAF) User_Email_Address:W.Chemoiwo@cifor-icraf.org  Alert: Low Utilization  Utilization:1.06GB
+User:Kimathi, Jackline (CIFOR) User_Email_Address:J.Kimathi@cifor-icraf.org  Alert: Low Utilization  Utilization:0.09GB
+User:Kuria, Christine (ICRAF) User_Email_Address:C.Kuria@cifor-icraf.org  Alert: Low Utilization  Utilization:0.09GB
+User:Irene Njoki (ICRAF) User_Email_Address:I.Njoki@cifor-icraf.org  Alert: Low Utilization  Utilization:0.81GB
+User:Kirimi, Miriam (ICRAF) User_Email_Address:M.Kirimi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.72GB
+User:Sabwa, Ivy (ICRAF) User_Email_Address:I.Sabwa@cifor-icraf.org  Alert: Low Utilization  Utilization:3.64GB
+User:Munyi, Faridah (ICRAF) User_Email_Address:F.Munyi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.35GB
+User:Korir, Josphat (ICRAF) User_Email_Address:J.Korir@cifor-icraf.org  Alert: Low Utilization  Utilization:0.07GB
+User:Pittaki, Zampela (ICRAF) User_Email_Address:Z.Pittaki@cifor-icraf.org  Alert: Low Utilization  Utilization:4.73GB
+User:Siyayi, Martha (ICRAF) User_Email_Address:M.Siyayi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.59GB
+User:Kleinsmann, Jasper (ICRAF) User_Email_Address:J.Kleinsmann@cifor-icraf.org  Alert: Low Utilization  Utilization:4.43GB
+User:Njunji, Edwin (ICRAF) User_Email_Address:E.Njunji@cifor-icraf.org  Alert: Low Utilization  Utilization:3.21GB
+User:Kyai, Hellen (ICRAF) User_Email_Address:H.Kyai@cifor-icraf.org  Alert: Low Utilization  Utilization:1.19GB
+User:Singh, Rohan (ICRAF) User_Email_Address:R.Singh@cifor-icraf.org  Alert: Low Utilization  Utilization:1.86GB
+User:Santos, Vanessa (ICRAF) User_Email_Address:V.Santos@cifor-icraf.org  Alert: Low Utilization  Utilization:2.15GB
+User:Dabas, Manoj (ICRAF) User_Email_Address:M.Dabas@cifor-icraf.org  Alert: Low Utilization  Utilization:1.25GB
+User:Kouam?, Brinvo (ICRAF) User_Email_Address:B.Kouame@cifor-icraf.org  Alert: Low Utilization  Utilization:0.48GB
+User:Alves, Vit?ria (ICRAF) User_Email_Address:V.Alves@cifor-icraf.org  Alert: Low Utilization  Utilization:0.01GB
+User:Seth, Alisha (ICRAF) User_Email_Address:A.Seth@cifor-icraf.org  Alert: Low Utilization  Utilization:3.85GB
+User:Muvunyi, Valens (ICRAF) User_Email_Address:V.Muvunyi@cifor-icraf.org  Alert: Low Utilization  Utilization:2.5GB
+User:Oliveira, Denise (ICRAF) User_Email_Address:D.Oliveira@cifor-icraf.org  Alert: Low Utilization  Utilization:1.99GB
+User:Olivier, Yao (ICRAF) User_Email_Address:Y.Olivier@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Sampaio, Julio Cesar (ICRAF) User_Email_Address:J.Sampaio@cifor-icraf.org  Alert: Low Utilization  Utilization:0.88GB
+User:Ferreira, Alinne (ICRAF) User_Email_Address:A.Ferreira@cifor-icraf.org  Alert: Low Utilization  Utilization:0.55GB
+User:Rao, Amrender (ICRAF) User_Email_Address:A.Rao@cifor-icraf.org  Alert: Low Utilization  Utilization:1.62GB
+User:Silva, Cristiano (ICRAF) User_Email_Address:C.Silva@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Silva, Amilton (ICRAF) User_Email_Address:A.Silva@cifor-icraf.org  Alert: Low Utilization  Utilization:0.06GB
+User:Faissal, Aziz (ICRAF) User_Email_Address:A.Faissal@cifor-icraf.org  Alert: Low Utilization  Utilization:0.03GB
+User:Rodrigues, Saime (ICRAF) User_Email_Address:S.Rodrigues@cifor-icraf.org  Alert: Low Utilization  Utilization:4.15GB
+User:Yitbarek, Daniel (ICRAF-Ethiopia) User_Email_Address:D.Yitbarek@cifor-icraf.org  Alert: Low Utilization  Utilization:4.06GB
+User:Majhi, Parthasarathi (ICRAF) User_Email_Address:P.Majhi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.37GB
+User:Clarisse, Dekoibe (ICRAF) User_Email_Address:D.Clarisse@cifor-icraf.org  Alert: Low Utilization  Utilization:0.05GB
+User:Tamo, Caroline (ICRAF) User_Email_Address:C.Tamo@cifor-icraf.org  Alert: Low Utilization  Utilization:0.56GB
+User:Irie, Epiphane  (IITA-ICRAF) User_Email_Address:E.Irie@cifor-icraf.org  Alert: Low Utilization  Utilization:0.53GB
+User:Kumar, Naveen Jindar (ICRAF) User_Email_Address:N.Kumar@cifor-icraf.org  Alert: Low Utilization  Utilization:4.86GB
+User:Chilala, Ndeke (ICRAF) User_Email_Address:N.Chilala@cifor-icraf.org  Alert: Low Utilization  Utilization:1.7GB
+User:Kanku, Dorcas (CIFOR-ICRAF) User_Email_Address:D.Kanku@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Dias, Claudionor (ICRAF) User_Email_Address:C.Dias@cifor-icraf.org  Alert: Low Utilization  Utilization:1.38GB
+User:Idriss, Abali (ICRAF) User_Email_Address:A.Idriss@cifor-icraf.org  Alert: Low Utilization  Utilization:1.13GB
+User:Garga, Saoudi (ICRAF) User_Email_Address:S.Garga@cifor-icraf.org  Alert: Low Utilization  Utilization:0.01GB
+User:Hailemariam, Gebrehiwot (ICRAF-Ethiopia) User_Email_Address:G.Hailemariam@cifor-icraf.org  Alert: Low Utilization  Utilization:4.95GB
+User:D'Avila, Djetouan (ICRAF) User_Email_Address:D.DAvila@cifor-icraf.org  Alert: Low Utilization  Utilization:2.38GB
+User:Sharma, Rani (ICRAF) User_Email_Address:R.Sharma@cifor-icraf.org  Alert: Low Utilization  Utilization:0.49GB
+User:Hagenimana, Thacien (ICRAF) User_Email_Address:T.Hagenimana@cifor-icraf.org  Alert: Low Utilization  Utilization:2.88GB
+User:N'goran, Georges (ICRAF) User_Email_Address:G.Ngoran@cifor-icraf.org  Alert: Low Utilization  Utilization:0.47GB
+User:Kumar, Praveen (ICRAF) User_Email_Address:P.Kumar@cifor-icraf.org  Alert: Low Utilization  Utilization:1.24GB
+User:Souza, Carina (ICRAF) User_Email_Address:C.Souza@cifor-icraf.org  Alert: Low Utilization  Utilization:0.63GB
+User:Sharma, Urvashi (ICRAF) User_Email_Address:U.Sharma@cifor-icraf.org  Alert: Low Utilization  Utilization:2.89GB
+User:Varma, Praneeth (ICRAF) User_Email_Address:P.Varma@cifor-icraf.org  Alert: Low Utilization  Utilization:1.53GB
+User:Srivastava, Animesh (ICRAF) User_Email_Address:A.Srivastava@cifor-icraf.org  Alert: Low Utilization  Utilization:2.22GB
+User:Alexis, Djamen (ICRAF) User_Email_Address:D.Alexis@cifor-icraf.org  Alert: Low Utilization  Utilization:0.65GB
+User:Kone, Ibrahim (ICRAF) User_Email_Address:I.Kone@cifor-icraf.org  Alert: Low Utilization  Utilization:1.45GB
+User:Yao, Larissa (ICRAF) User_Email_Address:L.Yao@cifor-icraf.org  Alert: Low Utilization  Utilization:0.02GB
+User:Fwanega, Francine (CIFOR-ICRAF) User_Email_Address:F.Fwanega@cifor-icraf.org  Alert: Low Utilization  Utilization:0.07GB
+User:Santosh, Kumar (ICRAF) User_Email_Address:K.Santosh@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Kibukila, Dieudonn? (ICRAF) User_Email_Address:D.Kibukila@cifor-icraf.org  Alert: Low Utilization  Utilization:0.57GB
+User:Kabasela, Aaron (CIFOR) User_Email_Address:A.Kabasela@cifor-icraf.org  Alert: Low Utilization  Utilization:3.25GB
+User:Djibo, Abdourhamane (ICRAF) User_Email_Address:A.Djibo@cifor-icraf.org  Alert: Low Utilization  Utilization:3.27GB
+User:Gboko, Komenan (ICRAF) User_Email_Address:K.Gboko@cifor-icraf.org  Alert: Low Utilization  Utilization:0.01GB
+User:Agbo, Edith (ICRAF) User_Email_Address:E.Agbo@cifor-icraf.org  Alert: Low Utilization  Utilization:0.01GB
+User:Kyomuhendo, Prossy (ICRAF) User_Email_Address:P.Kyomuhendo@cifor-icraf.org  Alert: Low Utilization  Utilization:0.05GB
+User:Girard, C?line (ICRAF) User_Email_Address:C.Girard@cifor-icraf.org  Alert: Low Utilization  Utilization:3.83GB
+User:Damte, Kalkidan (ICRAF-Ethiopia) User_Email_Address:K.Damte@cifor-icraf.org  Alert: Low Utilization  Utilization:2.43GB
+User:Yapi, Jules (ICRAF) User_Email_Address:J.Yapi@cifor-icraf.org  Alert: Low Utilization  Utilization:0.03GB
+User:Ndayisaba, Pierre Celestin (CIFOR-ICRAF) User_Email_Address:C.Ndayisaba@cifor-icraf.org  Alert: Low Utilization  Utilization:0.09GB
+User:Bassa, Fulgence (ICRAF) User_Email_Address:F.Bassa@cifor-icraf.org  Alert: Low Utilization  Utilization:0.86GB
+User:Masikati, Patricia (ICRAF) User_Email_Address:P.Masikati@cifor-icraf.org  Alert: Low Utilization  Utilization:4.47GB
+User:Kouassi, Jean-Brice K. (ICRAF) User_Email_Address:J.Kouassi@cifor-icraf.org  Alert: Low Utilization  Utilization:0.34GB
+User:Kalita, Arup (ICRAF) User_Email_Address:A.Kalita@cifor-icraf.org  Alert: Low Utilization  Utilization:0.08GB
+User:Mello, Denyse (ICRAF) User_Email_Address:D.Mello@cifor-icraf.org  Alert: Low Utilization  Utilization:4.91GB
+User:Getnet, Belete (ICRAF) User_Email_Address:B.Getnet@cifor-icraf.org  Alert: Low Utilization  Utilization:0.05GB
+User:Baruah, Manjil (ICRAF) User_Email_Address:M.Baruah@cifor-icraf.org  Alert: Low Utilization  Utilization:0.29GB
+User:Adjahoungbo, Merveille (ICRAF) User_Email_Address:M.Adjahoungbo@cifor-icraf.org  Alert: Low Utilization  Utilization:3.3GB
+User:Coulibaly, Yelly (ICRAF) User_Email_Address:Y.Coulibaly@cifor-icraf.org  Alert: Low Utilization  Utilization:4.94GB
+User:Mumbere, George (CIFOR) User_Email_Address:G.Mumbere@cifor-icraf.org  Alert: Low Utilization  Utilization:0.03GB
+User:Ottogalli, Raphael (CIFOR) User_Email_Address:R.Ottogalli@cifor-icraf.org  Alert: Low Utilization  Utilization:1.24GB
+User:Mbola, Mustafa (CIFOR) User_Email_Address:M.Mbola@cifor-icraf.org  Alert: Low Utilization  Utilization:0.15GB
+User:Walia, Vani (ICRAF) User_Email_Address:V.Walia@cifor-icraf.org  Alert: Low Utilization  Utilization:3.18GB
+User:Kouame, Jean-Marc (ICRAF) User_Email_Address:J.Kouame@cifor-icraf.org  Alert: Low Utilization  Utilization:0.03GB
+User:Dissanayake, Sithara (CIFOR) User_Email_Address:S.Dissanayake@cifor-icraf.org  Alert: Low Utilization  Utilization:0.03GB
+User:Quazi, Mohammad Tayyab (ICRAF) User_Email_Address:M.Quazi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.08GB
+User:Uwase, Olive (ICRAF) User_Email_Address:O.Uwase@cifor-icraf.org  Alert: Low Utilization  Utilization:0.37GB
+User:Bocoum, Adiaratou (ICRAF) User_Email_Address:A.Bocoum@cifor-icraf.org  Alert: Low Utilization  Utilization:0.99GB
+User:Toure, Ibrahim  (ICRAF) User_Email_Address:I.Toure@cifor-icraf.org  Alert: Low Utilization  Utilization:2.41GB
+User:Naidu, Satish (ICRAF) User_Email_Address:S.Naidu@cifor-icraf.org  Alert: Low Utilization  Utilization:3.79GB
+User:Diango, Dominique (CIFOR-ICRAF) User_Email_Address:D.Diango@cifor-icraf.org  Alert: Low Utilization  Utilization:0.02GB
+User:Dosso, Seydou  (ICRAF) User_Email_Address:S.Dosso@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Ujjawal (ICRAF) User_Email_Address:Ujjawal@cifor-icraf.org  Alert: Low Utilization  Utilization:4.11GB
+User:Cheudjeu, Nana (ICRAF) User_Email_Address:N.Cheudjeu@cifor-icraf.org  Alert: Low Utilization  Utilization:4.8GB
+User:Akesse, Didier (ICRAF) User_Email_Address:D.Akesse@cifor-icraf.org  Alert: Low Utilization  Utilization:0.26GB
+User:Gahamanyi, Phocas (ICRAF) User_Email_Address:P.Gahamanyi@cifor-icraf.org  Alert: Low Utilization  Utilization:1.31GB
+User:Natwaluma, Godfrey (ICRAF) User_Email_Address:G.Natwaluma@cifor-icraf.org  Alert: Low Utilization  Utilization:0.31GB
+User:Sharma, Mohit (ICRAF) User_Email_Address:M.Sharma@cifor-icraf.org  Alert: Low Utilization  Utilization:2.7GB
+User:Bamba, Sahi (ICRAF) User_Email_Address:S.Bamba@cifor-icraf.org  Alert: Low Utilization  Utilization:0.01GB
+User:Wen, Fengjiao (ICRAF) User_Email_Address:F.Wen@cifor-icraf.org  Alert: Low Utilization  Utilization:0.03GB
+User:Kajibwami, Hubert (CIFOR) User_Email_Address:H.Kajibwami@cifor-icraf.org  Alert: Low Utilization  Utilization:0.63GB
+User:Arnand, Claudeli (ICRAF) User_Email_Address:C.Arnand@cifor-icraf.org  Alert: Low Utilization  Utilization:3.23GB
+User:Gakwavu, Thomas (ICRAF) User_Email_Address:T.Gakwavu@cifor-icraf.org  Alert: Low Utilization  Utilization:0.24GB
+User:Siagbe, Fulgence (ICRAF) User_Email_Address:FSiagbe@cifor-icraf.org  Alert: Low Utilization  Utilization:0GB
+User:Behra, Narsingh (ICRAF) User_Email_Address:N.Behra@cifor-icraf.org  Alert: Low Utilization  Utilization:0.08GB
+User:Botula, Bernice (CIFOR-ICRAF) User_Email_Address:B.Botula@cifor-icraf.org  Alert: Low Utilization  Utilization:0.02GB
+User:Bayoko, Salifou (ICRAF) User_Email_Address:S.Bayoko@cifor-icraf.org  Alert: Low Utilization  Utilization:1.11GB
+User:Ahmad, Muhammad N. (ICRAF) User_Email_Address:M.Ahmad@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:2.52GB
+User:Muthuri, Silas (ICRAF) User_Email_Address:S.Muthuri@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:Hennemann, Ilse (ICRAF) User_Email_Address:I.Hennemann@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:ICRAF Bogor Guest01   (ICRAF) User_Email_Address:ICRAFGUEST01@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:1.39GB
+User:Vusaka, Arnold (ICRAF) User_Email_Address:A.Vusaka@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Winowiecki, Leigh Ann (ICRAF) User_Email_Address:L.A.WINOWIECKI@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.45GB
+User:Urbani, Nicola (ICRAF) User_Email_Address:N.Urbani@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Oware, Beatrice (ICRAF) User_Email_Address:B.Oware@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Hauser, Michael (ICRAF) User_Email_Address:M.Hauser@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Coe, Richard (ICRAF) User_Email_Address:R.COE@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.43GB
+User:cifor-icraf-powerbi User_Email_Address:cifor-icraf-powerbi@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:1.25GB
+User:Zata, Amani (CIFOR-ICRAF) User_Email_Address:A.Zata@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.35GB
+User:Langat, Amos (ICRAF) User_Email_Address:A.Langat@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.39GB
+User:Musyoki, Mercy (ICRAF) User_Email_Address:M.Musyoki@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.63GB
+User:Nguyo, Anthony (ICRAF) User_Email_Address:A.Nguyo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:2.57GB
+User:Barisoa, Nancy (CIFOR-ICRAF) User_Email_Address:N.Barisoa@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Awiti, Alex (ICRAF) User_Email_Address:A.Awiti@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Lamanna, Christine (ICRAF) User_Email_Address:C.Lamanna@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:4.15GB
+User:Worms, Patrick (ICRAF) User_Email_Address:P.Worms@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.61GB
+User:Okumu, Kelvin (ICRAF) User_Email_Address:K.Okumu@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.02GB
+User:Rodrigo, Lakshman (ICRAF) User_Email_Address:L.Rodrigo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.1GB
+User:Walji, Khalil (ICRAF) User_Email_Address:K.Walji@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:1.07GB
+User:Chazya, Wellington (ICRAF) User_Email_Address:W.Chazya@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.06GB
+User:Ouattara, Drissa (ICRAF) User_Email_Address:D.Ouattara@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.43GB
+User:Butoto, Joseph (CIFOR) User_Email_Address:J.Butoto@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.58GB
+User:Choudhary, Rajendra (ICRAF) User_Email_Address:R.Choudhary@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:2.74GB
+User:Kouadio, Jean Gauthier (ICRAF) User_Email_Address:J.G.Kouadio@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Kouame, Daniel (ICRAF) User_Email_Address:D.Kouame@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.61GB
+User:Guede, Martial (ICRAF) User_Email_Address:M.Guede@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.02GB
+User:Silva, Gelver (ICRAF) User_Email_Address:G.Silva@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.15GB
+User:Irandagiye, Laetitia (ICRAF) User_Email_Address:L.Irandagiye@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Aye, Syntiche (ICRAF) User_Email_Address:S.Aye@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.08GB
+User:Sanogo, Brahima (ICRAF) User_Email_Address:B.Sanogo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:4.13GB
+User:Ulyel, Amanda-Grace (CIFOR) User_Email_Address:A.Ulyel@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:Amoakon, Daniel (ICRAF) User_Email_Address:E.Amoakon@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:Tairo, Anthony (ICRAF) User_Email_Address:A.Tairo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:Kone, Fierla (ICRAF) User_Email_Address:F.Kone@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Germain, Yao (ICRAF) User_Email_Address:Y.Germain@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:Yao, Jean Luc (ICRAF) User_Email_Address:J.Yao@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Traore, Abou (ICRAF) User_Email_Address:abou.traore@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Ebagnerin, Tondoh (ICRAF) User_Email_Address:E.Tondoh@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.49GB
+User:Rukundo Nshutiyimana , Amani (ICRAF) User_Email_Address:A.Rukundo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.53GB
+User:Konan, Yao (ICRAF) User_Email_Address:Y.Konan@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.44GB
+User:Deng, Lanmu (ICRAF) User_Email_Address:L.Deng@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.15GB
+User:Xu, Jianchu (ICRAF) User_Email_Address:J.C.Xu@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:Moustapha, Alim Abdoulaye (ICRAF) User_Email_Address:A.Moustapha@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Bakalar, Nevena (ICRAF) User_Email_Address:N.Bakalar@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+User:N'Guessan, Alphonsine (ICRAF) User_Email_Address:A.NGuessan@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Kumar, Pradeep (ICRAF) User_Email_Address:K.Pradeep@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Renduchintala, Swati (ICRAF) User_Email_Address:S.Renduchintala@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:1.31GB
+User:Kumar, Vinod (ICRAF) User_Email_Address:V.Kumar@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.03GB
+User:Mourao, Pedro (ICRAF) User_Email_Address:P.Mourao@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Shema, Yves (ICRAF) User_Email_Address:Y.Shema@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:1.41GB
+User:Aka, Gerald  Yves (ICRAF) User_Email_Address:G.Aka@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.32GB
+User:Mtika, Daniel (ICRAF) User_Email_Address:D.Mtika@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.32GB
+User:Kouadio, Mathias (ICRAF) User_Email_Address:M.Kouadio@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Osidi, John (ICRAF) User_Email_Address:J.Osidi@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Diarra, Doukoro (ICRAF) User_Email_Address:D.Diarra@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Olivier, Yao N'Guessan (ICRAF) User_Email_Address:Y.N'Guessan@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Sharma, Sonia (ICRAF) User_Email_Address:Sonia.Sharma@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:2.58GB
+User:Bwirabuciza, Martin (CIFOR) User_Email_Address:M.Bwirabuciza@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Twiragijimana, Marie Claire (ICRAF) User_Email_Address:M.C.Twiragijimana@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.79GB
+User:Koffi, Raoul (ICRAF) User_Email_Address:R.Koffi@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.05GB
+User:Balaraba, Issa (ICRAF) User_Email_Address:I.Balaraba@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.15GB
+User:Mulumba, Hubert (CIFOR) User_Email_Address:H.Mulumba@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Tokpa, Louis (ICRAF) User_Email_Address:L.Tokpa@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Basila, Modeste (CIFOR) User_Email_Address:M.Basila@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.36GB
+User:Harmand, Jean-Michel (ICRAF) User_Email_Address:J.Harmand@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.07GB
+User:Xiaoxiao, Guo (ICRAF) User_Email_Address:G.Xiaoxiao@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.38GB
+User:Abo, Adjekouna  (ICRAF) User_Email_Address:A.Abo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Kouassi, Armand K. (ICRAF) User_Email_Address:A.K.Kouassi@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Adriko, Joel (ICRAF) User_Email_Address:J.Adriko@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.02GB
+User:Ahmad, Firoz (ICRAF) User_Email_Address:F.Ahmad@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:1.65GB
+User:Kebede, Yared (ICRAF-Ethiopia) User_Email_Address:Yared.Kebede@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.24GB
+User:Sukh, Nitin (ICRAF) User_Email_Address:N.Sukh@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.05GB
+User:Bandawe, Idah (ICRAF) User_Email_Address:I.Bandawe@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0GB
+User:Montoya, Javier G. (ICRAF) User_Email_Address:J.G.Montoya@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:3.74GB
+User:Mahinandhan, S (ICRAF) User_Email_Address:S.Mahinandhan@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:4.97GB
+User:Jashopokwo, Clement (CIFOR) User_Email_Address:C.Jashopokwo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.02GB
+User:Ar?valo, Renato (ICRAF) User_Email_Address:R.Arevalo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.07GB
+User:Amanubo, Amos (ICRAF) User_Email_Address:A.Amanubo@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.06GB
+User:N'guessan, Charles (ICRAF) User_Email_Address:C.Nguessan@cifor-icraf.org  Alert: Old Activity Date & Low Utilization  Utilization:0.01GB
+Completed exeuction of the script
+
+

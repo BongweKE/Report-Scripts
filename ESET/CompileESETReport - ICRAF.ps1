@@ -54,7 +54,7 @@ $kaseyaCountfnR = "Machine Count - ICRAF Regions.xlsx"
 #Get Machine Counts
 $kaseyaCount = Get-KaseyaMachineCount -reportDirectory $reportDirectoryKaseya -fileName $kaseyaCountfn
 
-$kaseyaCount = $kaseyaCount[0]
+$kaseyaCountHQ = $kaseyaCount[0]
 $kaseyaCountR = Get-KaseyaMachineCount -reportDirectory $reportDirectoryKaseya -fileName $kaseyaCountfnR
 $kaseyaCountR = $kaseyaCountR[0]
 # $serviceNowCount = Get-ServiceNowMachineCount -reportDirectory $reportDirectoryServiceNow -fileName $serviceNowCountfn
@@ -76,13 +76,18 @@ $threatCountfn = "ICRAF - Threat Count (Grouped by Office).csv"
 $esetReport = Get-ESETReport -reportDirectory $reportDirectoryESET -lastConnection $lastConnectionfn -lastUpdate $lastUpdatefn -threatCount $threatCountfn -criticalMachines $criticalMachinesfn -computerCount $computerCountfn
 
 
-$lastConnectionCount = $esetReport.LastConnection
-$computerCount = $esetReport.ComputerCount
+$lastConnectionCountR = $esetReport.LastConnectionRegions
+$lastConnectionCountHQ = $esetReport.LastConnectionHQ
+
+$computerCountR = $esetReport.ComputerCountRegions
+$computerCountHQ = $esetReport.ComputerCountHQ
+# Get HQ Vs Region Data After First run
 $updatedComputerCount = $esetReport.UpdatedComputers
 $notUpdatedComputerCount = $esetReport.NotUpdatedComputers
 $criticalMachinesCount = $esetReport.CriticalMachines
 $threatCountHQ = $esetReport.ThreatCountHQ
 $threatCountRegions = $esetReport.ThreatCountRegions
+
 
 #######################################################################################
 # TBC:
@@ -92,45 +97,43 @@ $threatCountRegions = $esetReport.ThreatCountRegions
 # => Finalize Excel Creation below
 # => finalize sending report: Test first using your mail then add other
 ###############################################################################
-$successfullConnection = $computerCount - $lastConnectionCount
-$percentageSuccessfulConnection = ($successfullConnection/$computerCount).ToString("#.##%")
-$percentageUpdatedComputers = ($updatedComputerCount/$computerCount).ToString("#.##%")
-$percentageNotUpdatedComputers = ($notUpdatedComputerCount/$computerCount).ToString("#.##%")
-$percentageComputersWithESET = ($computerCount/$kaseyaCount).ToString("#.##%")
-$ComputersWithoutESET = [math]::Max(0,$kaseyaCount - $computerCount)
-$percentageComputersWithoutESET = ($computersWithoutESET/$kaseyaCount).ToString("0.00%")
-$percentageComputerWithKaseya = ($kaseyaCount/$ADCount).ToString("#.##%")
-$computersWithoutKaseya = [math]::Max(0,$ADCount - $kaseyaCount)
-$percentageComputerWithoutKaseya = ($computersWithoutKaseya/$ADCount).ToString("0.00%")
+    
 
-#Run Report Regions
-$esetReportR = Get-ESETReport -reportDirectory $reportDirectoryESET -lastConnection $lastConnectionfnR -lastUpdate $lastUpdatefnR -threatCount $threatCountfnR -criticalMachines $criticalMachinesfnR -computerCount $computerCountfnR
+$successfullConnectionHQ = $computerCountHQ - $lastConnectionCountHQ
+
+$percentageSuccessfulConnectionHQ = ($successfullConnectionHQ/$computerCountHQ).ToString("#.##%")
+# Get HQ Vs Region Data After First run
+$percentageUpdatedComputersHQ = ($updatedComputerCount/$computerCountHQ).ToString("#.##%")
+$percentageNotUpdatedComputersHQ = ($notUpdatedComputerCount/$computerCountHQ).ToString("#.##%")
+# Get separate Kaseya Count HQ
+$percentageComputersWithESETHQ = ($computerCountHQ/$kaseyaCountHQ).ToString("#.##%")
+$ComputersWithoutESETHQ = [math]::Max(0,$kaseyaCountHQ - $computerCountHQ)
+$percentageComputersWithoutESETHQ = ($computersWithoutESETHQ/$kaseyaCountHQ).ToString("0.00%")
+
+
 
 #########################################################################################
-# GET ONEDRIVE DATA
+# GET ONEDRIVE DATA: Updte in Future or use BI model to avoid redundancy
 #########################################################################################
 
-$ODReport = Get-OneDriveReport
+#$ODReport = Get-OneDriveReport
 
 #########################################################################################
 # COMPILE ALL DATA
 #########################################################################################
-$lastConnectionCountR = $esetReportR.LastConnection
-$computerCountR = $esetReportR.ComputerCount
-$updatedComputerCountR = $esetReportR.UpdatedComputers
-$notUpdatedComputerCountR = $esetReportR.NotUpdatedComputers
-$criticalMachinesCountR = $esetReportR.CriticalMachines
-$threatCountR = $esetReportR.ThreatCount
+
 $successfullConnectionR = $computerCountR - $lastConnectionCountR
 $percentageSuccessfulConnectionR = ($successfullConnectionR/$computerCountR).ToString("#.##%")
+
+# Change this once you get good data
+$updatedComputerCountR = $updatedComputerCount
+$notUpdatedComputerCountR = $notUpdatedComputerCount
 $percentageUpdatedComputersR = ($updatedComputerCountR/$computerCountR).ToString("#.##%")
 $percentageNotUpdatedComputersR = ($notUpdatedComputerCountR/$computerCountR).ToString("#.##%")
 $percentageComputersWithESETR = ($computerCountR/$kaseyaCountR).ToString("#.##%")
 $ComputersWithoutESETR = [math]::Max(0,$kaseyaCountR - $computerCountR)
 $percentageComputersWithoutESETR = ($computersWithoutESETR/$kaseyaCountR).ToString("0.00%")
-$percentageComputerWithKaseyaR = ($kaseyaCount/$ADCount).ToString("#.##%")
-$computersWithoutKaseyaR = [math]::Max(0,$ADCount - $kaseyaCount)
-$percentageComputerWithoutKaseyaR = ($computersWithoutKaseya/$ADCount).ToString("0.00%")
+
 
 ##########################################################################################
 # EXCEL Creation
@@ -141,84 +144,139 @@ $percentageComputerWithoutKaseyaR = ($computersWithoutKaseya/$ADCount).ToString(
 #
 #########################################################################################
 
-<#
+# excel Report Creation Directory
+
+$excelReport = "c:\Users\poadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\ESET Reports\eset_dashboard_data.xlsx"
 # Create a new Excel application object
 $excel = New-Object -ComObject Excel.Application
 $excel.Visible = $false
 
 # Open the Excel file
-$workbook = $excel.Workbooks.Open($dashboardReportPath)
-$sheet = $workbook.Worksheets.Item(1)
+$workbook = $excel.Workbooks.Open($excelReport)
+# Access the worksheets (replace Sheet1 and Sheet2 with actual sheet names)
+$sheetHQ = $workbook.Worksheets.Item("HQ")
+$sheetR = $workbook.Worksheets.Item("Regions")
 
-# Find the last used row in the first column
-$rowMax = $sheet.UsedRange.Rows.Count + 1
+# Find the next available row in each sheet
+$nextRowHQ = $sheetHQ.UsedRange.Rows.Count + 1
+$nextRowR = $sheetR.UsedRange.Rows.Count + 1
 
-# Add the new data to the next row
-$sheet.Cells.Item($rowMax, 1).Value2 = Get-Date -Format 'MM/dd/yyyy'
-$sheet.Cells.Item($rowMax, 2).Value2 = $AdminAccounts.Count.ToString()
-$sheet.Cells.Item($rowMax, 3).Value2 = $ExpiredAdmin_Accounts.Count.ToString()
-$sheet.Cells.Item($rowMax, 4).Value2 = $ActiveAdminAccounts.Count.ToString()
-$sheet.Cells.Item($rowMax, 5).Value2 = $InactiveAdminAccounts.Count.ToString()
-$sheet.Cells.Item($rowMax, 6).Value2 = $InactiveAdminAccounts_60_days.Count.ToString()
-$sheet.Cells.Item($rowMax, 7).Value2 = $NoExpiryAdminAccounts.Count.ToString()
+
+# Populate data for HQ sheet
+$sheetHQ.Cells.Item($nextRowHQ, 1) = (Get-Date).ToString("MMMM dd yyyy")  # Assuming 'Date' is the first column
+$sheetHQ.Cells.Item($nextRowHQ, 2) = $computerCountHQ
+$sheetHQ.Cells.Item($nextRowHQ, 3) = $computersWithoutESETHQ
+$sheetHQ.Cells.Item($nextRowHQ, 4) = $percentageComputersWithoutESETHQ
+$sheetHQ.Cells.Item($nextRowHQ, 5) = $successfullConnectionHQ
+$sheetHQ.Cells.Item($nextRowHQ, 6) = $percentageSuccessfulConnectionHQ
+$sheetHQ.Cells.Item($nextRowHQ, 7) = $updatedComputerCount
+$sheetHQ.Cells.Item($nextRowHQ, 8) = $percentageUpdatedComputersHQ
+$sheetHQ.Cells.Item($nextRowHQ, 9) = $notUpdatedComputerCount
+$sheetHQ.Cells.Item($nextRowHQ, 10) = $percentageNotUpdatedComputersHQ
+
+
+
+# Populate data for Region sheet
+$sheetR.Cells.Item($nextRowR, 1) = (Get-Date).ToString("MMMM dd yyyy")
+$sheetR.Cells.Item($nextRowR, 2) = $computerCountR
+$sheetR.Cells.Item($nextRowR, 3) = $ComputersWithoutESETR
+$sheetR.Cells.Item($nextRowR, 4) = $percentageComputersWithoutESETR
+$sheetR.Cells.Item($nextRowR, 5) = $successfullConnectionR
+$sheetR.Cells.Item($nextRowR, 6) = $percentageSuccessfulConnectionR
+$sheetR.Cells.Item($nextRowR, 7) = $updatedComputerCountR
+$sheetR.Cells.Item($nextRowR, 8) = $percentageUpdatedComputersR
+$sheetR.Cells.Item($nextRowR, 9) = $notUpdatedComputerCountR
+$sheetR.Cells.Item($nextRowR, 10) = $percentageNotUpdatedComputersR
 
 # Save and close the workbook
 $workbook.Save()
-$workbook.Close($true)
-Start-Sleep -Seconds 2
-# Quit Excel and release COM objects
+$workbook.Close()
 $excel.Quit()
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($sheet) | Out-Null
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($workbook) | Out-Null
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
+
+# Clean up COM objects
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($sheetHQ)
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($sheetR)
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($workbook)
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel)
 [System.GC]::Collect()
 [System.GC]::WaitForPendingFinalizers()
-
-#>
-
 #########################################################################################
 # Email The report (occurs every fortnite as per Task Schduler)
 #########################################################################################
-# format date in standard format first
 $reportDate = Get-Date -Format "MMMM dd yyyy"
 
-#Compile Report Body
-$reportBody = @"
-Date of Report: $reportDate`r
-Report For: $location`r
-No of Computers on AD : $ADCount`r
-No of Computers on Kaseya (HQ) : $KaseyaCount`r
-No of Computers on Kaseya (Regions) : $KaseyaCountR`r
-No of Computers on ServiceNow : $serviceNowCount`r
-Client Count on AV Database : $computerCount`r
-Client Count on AV Database (Regions) : $computerCountR`r
-------------------------------------------------------
-STATUS OF AV SIGNATURE DATABASE (HQ)
-------------------------------------------------------
-Computers Updated in the last 1 Week : $updatedComputerCount`r
-Computers Not Updated in the last 1 Week : $notUpdatedComputerCount`r
-------------------------------------------------------
-STATUS OF AV SIGNATURE DATABASE (Regions)
-------------------------------------------------------
-Computers Updated in the last 1 Week : $updatedComputerCountR`r
-Computers Not Updated in the last 1 Week : $notUpdatedComputerCountR`r
-------------------------------------------------------
-CONNECTION TO SERVER (HQ)
-------------------------------------------------------
-Computers Not Connected in over 1 Month : $lastConnectionCount`r
-------------------------------------------------------
-CONNECTION TO SERVER (Regions)
-------------------------------------------------------
-Computers Not Connected in over 1 Month : $lastConnectionCountR`r
-------------------------------------------------------
-THREAT LOG
-------------------------------------------------------
-Critical Machines : $criticalMachinesCount`r
-No. of Threats : $threatCount`r
-"@ -split '\n'
+# Compile Executive Summary
+$summary = @"
+**Executive Summary**
 
-#Send The Report
-Send-ESETReport -recipients $reportRecipients -reportBody $reportBody
+* As of $reportDate, $percentageUpdatedComputersHQ of computers at HQ and $percentageUpdatedComputersR of computers in the regions have updated antivirus signatures within the last week.
+* $percentageSuccessfulConnectionHQ of HQ computers and $percentageSuccessfulConnectionR of regional computers have successfully connected to the server.
+* $percentageComputersWithoutESETHQ of HQ computers and $percentageComputersWithoutESETR of regional computers are not on the ESET antivirus.
+* There are currently $criticalMachinesCount critical machines with a total of $threatCount threats detected.
+"@
+
+# Compile Detailed Report Body 
+$reportBody = @"
+## Date of Report: $reportDate
+## Report For: $location
+
+**System Counts**
+
+* No of Computers on Kaseya (HQ): $kaseyaCountHQ
+* No of Computers on Kaseya (Regions): $kaseyaCountR
+* No of Computers on ServiceNow: $serviceNowCount
+* Client Count on AV Database (HQ): $computerCountHQ
+* Client Count on AV Database (Regions): $computerCountR
+
+**STATUS OF AV SIGNATURE DATABASE (HQ)**
+
+* Computers Updated in the last 1 Week: $updatedComputerCount
+* Computers Not Updated in the last 1 Week: $notUpdatedComputerCount
+* Percentage of Updated Computers: $percentageUpdatedComputersHQ
+* Percentage of Not Updated Computers: $percentageNotUpdatedComputersHQ
+
+**STATUS OF AV SIGNATURE DATABASE (Regions)**
+
+* Computers Updated in the last 1 Week: $updatedComputerCountR
+* Computers Not Updated in the last 1 Week: $notUpdatedComputerCountR
+* Percentage of Updated Computers: $percentageUpdatedComputersR
+* Percentage of Not Updated Computers: $percentageNotUpdatedComputersR
+
+**CONNECTION TO SERVER (HQ)**
+
+* Computers Not Connected in over 1 Month: $lastConnectionCountHQ
+* Successful Connections: $successfullConnectionHQ 
+* Percentage of Successful Connections: $percentageSuccessfulConnectionHQ
+
+**CONNECTION TO SERVER (Regions)**
+
+* Computers Not Connected in over 1 Month: $lastConnectionCountR
+* Successful Connections: $successfullConnectionR
+* Percentage of Successful Connections: $percentageSuccessfulConnectionR
+
+**ESET COVERAGE**
+
+* Computers With ESET (HQ): $computerCountHQ
+* Computers Without ESET (HQ): $ComputersWithoutESETHQ
+* Percentage of Computers With ESET (HQ): $percentageComputersWithESETHQ
+* Percentage of Computers Without ESET (HQ): $percentageComputersWithoutESETHQ
+
+* Computers With ESET (Regions): $computerCountR
+* Computers Without ESET (Regions): $ComputersWithoutESETR
+* Percentage of Computers With ESET (Regions): $percentageComputersWithESETR
+* Percentage of Computers Without ESET (Regions): $percentageComputersWithoutESETR
+
+**THREAT LOG**
+
+* Critical Machines: $criticalMachinesCount
+* No. of Threats: $threatCount
+"@
+
+# Combine Summary and Detailed Report
+$fullReport = $summary + $reportBody
+
+# Send The Report
+Send-ESETReport -recipients $reportRecipients -reportBody $fullReport
 
 <#
 #Everything below this line is under testing
@@ -226,7 +284,7 @@ $body = @{
 "Date" = $reportDate;
 "Recorded_Date" = $weekOfMonthNo;
 "No. of Computers on Kaseya" = [int]$kaseyaCount;
-"No. of Computers on AD" = $ADCount;
+
 "Client count on AV" = $computerCount;
 "No. of Updated Clients in the last 1 week" = $updatedComputerCount;
 "No. of Not Updated Clients in the last 1 week" = $notUpdatedComputerCount;

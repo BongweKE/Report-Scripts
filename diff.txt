@@ -1,0 +1,6 @@
+
+AccountExpirationDate     accountExpires AccountLockoutTime AccountNotDelegated adminCount adminDescription   AllowReversiblePasswordEncryption AuthenticationPolicy AuthenticationPolicySilo
+---------------------     -------------- ------------------ ------------------- ---------- ----------------   --------------------------------- -------------------- ------------------------
+1/1/2026 12:00:00 AM  134116884000000000                                  False          1 Created by DirSync                             False {}                   {}                      
+1/1/2026 12:00:00 AM  134116884000000000                                  False          1 Created by DirSync                             False {}                   {}                      
+
