@@ -98,8 +98,6 @@ foreach ($Account in $csvReport)
         $ICRAFAccountsNoLastActivity += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
         # Write-Host $emailAddress" has invalid last activity date"
     }
-    
-
 }
 ###########################################################################################################
 #AD vs outlook: Comparing AD and outlook accounts to find all inactive accounts (AD inactive)

@@ -1,6 +1,6 @@
 ﻿# Load the Import-Excel module
 Import-Module -Name ImportExcel
-$reportDate = (Get-Date).AddMonths(-1) | Get-Date -Format 'MMMM yyyy'
+$reportDate = Get-Date -Format 'MMMM yyyy'
 $AdminsGroup = 'Domain Admins'
 $reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF Admins\'
 $reportDirectoryCurrent = $reportDirectory + $reportDate + '\'
@@ -45,55 +45,7 @@ $NoExpiryAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object
 
 #Total Admin Accounts Count
 $AdminAccounts = Get-ADGroupMember -Identity $AdminsGroup
-<#
 
-Import-Module ActiveDirectory
-
-$dormantThreshold_30_days = (Get-Date).AddDays(-30)
-$dormantThreshold_60_days = (Get-Date).AddDays(-60)
-
-# Get all user accounts from the admin group with LastLogonDate and Enabled properties
-$allAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | 
-    Where-Object { $_.ObjectClass -eq 'user' -and $_.DistinguishedName -ne $null } | 
-    Get-ADUser -Properties LastLogonDate, Enabled
-
-# Filter for inactive accounts (regardless of enabled status)
-$InactiveAdminAccounts = $allAdminAccounts | Where-Object { $_.LastLogonDate -lt $dormantThreshold_30_days }
-
-# Filter for inactive and enabled accounts
-$InactiveAdminAccountsEnabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $true }
-
-# Filter for inactive and disabled accounts
-$InactiveAdminAccountsDisabled = $InactiveAdminAccounts | Where-Object { $_.Enabled -eq $false }
-
-# Filter for inactive accounts (60 days) regardless of enabled status
-$InactiveAdminAccounts_60_days = $allAdminAccounts | Where-Object { $_.LastLogonDate -lt $dormantThreshold_60_days }
-
-
-$InactiveAdminAccounts = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { 
-    $_.ObjectClass -eq 'user' -and 
-    $_.DistinguishedName -ne $null 
-} | Get-ADUser -Properties LastLogonDate, Enabled | Where-Object { 
-    $_.LastLogonDate -lt (Get-Date).AddDays(-30)
-}
-
-$InactiveAdminAccountsEnabled = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { 
-    $_.ObjectClass -eq 'user' -and 
-    $_.DistinguishedName -ne $null 
-} | Get-ADUser -Properties LastLogonDate, Enabled | Where-Object { 
-    $_.LastLogonDate -lt (Get-Date).AddDays(-30) -and
-    $_.Enabled -eq $true
-}
-
-$InactiveAdminAccountsDisabled = Get-ADGroupMember -Identity $AdminsGroup | Where-Object { 
-    $_.ObjectClass -eq 'user' -and 
-    $_.DistinguishedName -ne $null 
-} | Get-ADUser -Properties LastLogonDate, Enabled | Where-Object { 
-    $_.LastLogonDate -lt (Get-Date).AddDays(-30) -and
-    $_.Enabled -eq $false
-}
-
-#>
 #Generate Privileged Accounts Report Object
 $ADPrivilegedAccountsReport = [pscustomobject]@{
 'Report Date' = Get-Date -Format 'dd/MM/yyyy'
@@ -101,7 +53,11 @@ $ADPrivilegedAccountsReport = [pscustomobject]@{
 'Expired Privileged Accounts' = $ExpiredAdmin_Accounts.Count
 'Active Privileged Accounts' = $ActiveAdminAccounts.Count
 'Dormant Privileged Accounts (30 Days)' = $InactiveAdminAccounts.Count
+'Enabled Dormant Privileged Accounts (30 Days)' = $InactiveAdminAccountsEnabled.Count
+'Disabled Dormant Privileged Accounts (30 Days)' = $InactiveAdminAccountsDisabled.Count
 'Dormant Privileged Accounts (60 Days)' = $InactiveAdminAccounts_60_days.Count
+'Enabled Dormant Privileged Accounts (60 Days)' = $InactiveAdminAccounts_60_days_Enabled.Count
+'Disabled Dormant Privileged Accounts (60 Days)' = $InactiveAdminAccounts_60_days_Disabled.Count
 'No Expiry Privileged Accounts' = $NoExpiryAdminAccounts.Count
 }
 
@@ -191,6 +147,31 @@ foreach ($account in $NoExpiryAdminAccounts)
    $reportBody_No_Expiry += $account.name+"`n"
 }
 
+$reportBody_Inactive_Enabled = ""
+foreach ($account in $InactiveAdminAccountsEnabled)
+{
+   $reportBody_Inactive_Enabled += $account.name+"`n"
+}
+
+
+$reportBody_Inactive_Disabled = ""
+foreach ($account in $InactiveAdminAccountsDisabled)
+{
+   $reportBody_Inactive_Disabled += $account.name+"`n"
+}
+
+$reportBody_Inactive_Enabled_60 = ""
+foreach ($account in $InactiveAdminAccounts_60_days_Enabled)
+{
+   $reportBody_Inactive_Enabled_60 += $account.name+"`n"
+}
+
+$reportBody_Inactive_Disabled_60 = ""
+foreach ($account in $InactiveAdminAccounts_60_days_Disabled)
+{
+   $reportBody_Inactive_Disabled_60 += $account.name+"`n"
+}
+
 #Generate Report Files
 #Create Directory
 mkdir $reportDirectoryCurrent -Force
@@ -198,7 +179,11 @@ $AdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'A
 $ExpiredAdmin_Accounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Expired Admin Accounts.csv') -NoTypeInformation
 $ActiveAdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Active Admin Accounts.csv') -NoTypeInformation
 $InactiveAdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Dormant Admin Accounts (Not used in the last 30 days).csv') -NoTypeInformation
+$InactiveAdminAccountsEnabled | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Enabled Dormant Admin Accounts (Not used in the last 30 days).csv') -NoTypeInformation
+$InactiveAdminAccountsDisabled | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Disabled Dormant Admin Accounts (Not used in the last 30 days).csv') -NoTypeInformation
 $InactiveAdminAccounts_60_days | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Dormant Admin Accounts (Not used in the last 60 days).csv') -NoTypeInformation
+$InactiveAdminAccounts_60_days_Enabled | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Enabled Dormant Admin Accounts (Not used in the last 60 days).csv') -NoTypeInformation
+$InactiveAdminAccounts_60_days_Disabled | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Disabled Dormant Admin Accounts (Not used in the last 60 days).csv') -NoTypeInformation
 $NoExpiryAdminAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Admin Accounts with No Expiry Date.csv') -NoTypeInformation
 $ADPrivilegedAccountsReport | Export-Csv ($reportDirectoryCurrent + 'Privileged Accounts Full Report.csv') -NoTypeInformation
 
@@ -212,6 +197,9 @@ $alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -F
 $mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
 $subject = 'CIFORICRAF Privileged Accounts AD Report - ' + $reportDate
 $ICRAFReportRecipient = @('z.abidin@cifor-icraf.org','r.kande@cifor-icraf.org','p.oyuko@cifor-icraf.org','t.bandradi@cifor-icraf.org','c.mwangi@cifor-icraf.org','l.kavoo@cifor-icraf.org','i.dewantara@cifor-icraf.org','b.obaga@cifor-icraf.org')
+# $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org')
+# $ICRAFReportRecipient = @('b.obaga@cifor-icraf.org')
+
 $attachments = @($compressedDirectory)
 $message = @"   
 Dear All,
@@ -245,12 +233,32 @@ DORMANT ACCOUNTS (NOT USED IN THE LAST 30 DAYS)
 ------------------------------------------------
 $reportBody_Inactive
 
+------------------------------------------------
+ENABLED DORMANT ACCOUNTS (NOT USED IN THE LAST 30 DAYS)
+------------------------------------------------
+$reportBody_Inactive_Enabled
+
+------------------------------------------------
+DISABLED DORMANT ACCOUNTS (NOT USED IN THE LAST 30 DAYS)
+------------------------------------------------
+
+$reportBody_Inactive_Disabled
 
 ------------------------------------------------
 DORMANT ACCOUNTS (NOT USED IN THE LAST 60 DAYS)
 ------------------------------------------------
 $reportBody_Inactive_60_days
 
+
+------------------------------------------------
+ENABLED DORMANT ACCOUNTS (NOT USED IN THE LAST 60 DAYS)
+------------------------------------------------
+$reportBody_Inactive_Enabled_60
+
+------------------------------------------------
+DISABLED DORMANT ACCOUNTS (NOT USED IN THE LAST 60 DAYS)
+------------------------------------------------
+$reportBody_Inactive_Disabled_60
 
 ------------------------------------------------
 ACCOUNTS WITH NO EXPIRY DATE
