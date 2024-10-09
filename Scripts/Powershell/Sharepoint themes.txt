@@ -1,0 +1,28 @@
+$tp = @{
+"themePrimary" = "#afe3b4";
+"themeLighterAlt" = "#070907";
+"themeLighter" = "#1c241d";
+"themeLight" = "#344436";
+"themeTertiary" = "#69886c";
+"themeSecondary" = "#9ac89e";
+"themeDarkAlt" = "#b6e6bb";
+"themeDark" = "#c1eac5";
+"themeDarker" = "#d0efd4";
+"neutralLighterAlt" = "#0b0c0c";
+"neutralLighter" = "#0b0c0c";
+"neutralLight" = "#0b0c0c";
+"neutralQuaternaryAlt" = "#0a0b0b";
+"neutralQuaternary" = "#0a0a0a";
+"neutralTertiaryAlt" = "#090a0a";
+"neutralTertiary" = "#c8c8c8";
+"neutralSecondary" = "#d0d0d0";
+"neutralPrimaryAlt" = "#dadada";
+"neutralPrimary" = "#ffffff";
+"neutralDark" = "#f4f4f4";
+"black" = "#f8f8f8";
+"white" = "#0c0d0d";
+}
+
+Add-SPOTheme -Identity "myTreeTheme12" -Palette $tp -IsInverted $false
+
+connect-SPOService -url https://icrafcifor-admin.sharepoint.com

@@ -1,0 +1,23 @@
+PS C:\Users\poadmin> Install-Module PowershellGet -Force
+
+NuGet provider is required to continue
+PowerShellGet requires NuGet provider version '2.8.5.201' or newer to interact with NuGet-based repositories. The NuGet
+ provider must be available in 'C:\Program Files\PackageManagement\ProviderAssemblies' or
+'C:\Users\poadmin\AppData\Local\PackageManagement\ProviderAssemblies'. You can also install the NuGet provider by
+running 'Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force'. Do you want PowerShellGet to install
+and import the NuGet provider now?
+[Y] Yes  [N] No  [S] Suspend  [?] Help (default is "Y"): y
+PS C:\Users\poadmin> Install-Module MSOnline
+
+Untrusted repository
+You are installing the modules from an untrusted repository. If you trust this repository, change its
+InstallationPolicy value by running the Set-PSRepository cmdlet. Are you sure you want to install the modules from
+'PSGallery'?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): y
+PS C:\Users\poadmin> Connect-MsolService
+PS C:\Users\poadmin> cd c:\scripts\
+PS C:\scripts> .\Get-MFAReport.ps1
+Finding Azure Active Directory Accounts...
+Processing 1983 accounts...
+Report is in c:\temp\MFAUsers.csv
+PS C:\scripts>

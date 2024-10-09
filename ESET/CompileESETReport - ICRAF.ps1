@@ -25,10 +25,10 @@ if ($firstDayOfWeekOfMonth -eq 0) { $firstDayOfWeekOfMonth = 7 }
 #########################################################################################
 # change back to auto calculate
 #########################################################################################
-$weekOfMonth = 1
-#$weekOfMonth = [Math]::Ceiling(($date.Day + $firstDayOfWeekOfMonth - 1) / 7)
+# $weekOfMonth = 1
+$weekOfMonth = [Math]::Ceiling(($date.Day + $firstDayOfWeekOfMonth - 1) / 7)
 
-$reportSubFolder = Get-Date -Format "MMMMyyyy"
+$reportSubFolder = (Get-Date).AddDays(-1).ToString("MMMMyyyy")
 
 $reportDirectoryKaseya = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Sources\Kaseya\" + $reportSubFolder + "\"
 
@@ -37,7 +37,6 @@ $reportSubFolder = $reportSubFolder+"wk"+$weekOfMonth
 $reportDirectoryESET = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Sources\ESET\" + $reportSubFolder + "\"
 
 $reportDirectoryServiceNow = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Sources\ServiceNow\"
-
 #########################################################################################
 # GET KASEYA DATA
 #########################################################################################
@@ -53,7 +52,6 @@ $kaseyaCountfnR = "Machine Count - ICRAF Regions.xlsx"
 
 #Get Machine Counts
 $kaseyaCount = Get-KaseyaMachineCount -reportDirectory $reportDirectoryKaseya -fileName $kaseyaCountfn
-
 $kaseyaCountHQ = $kaseyaCount[0]
 $kaseyaCountR = Get-KaseyaMachineCount -reportDirectory $reportDirectoryKaseya -fileName $kaseyaCountfnR
 $kaseyaCountR = $kaseyaCountR[0]
@@ -63,18 +61,23 @@ $kaseyaCountR = $kaseyaCountR[0]
 #########################################################################################
 # ESET
 #########################################################################################
-
-
 #Define Grouped ESET Report Filenames
+<# 
+The filenames supplied below are from the PowerAutomate flow in charge of ESET data
+
+Each CSV is divided into office data for the data point in question 
+#>
 $lastConnectionfn = "ICRAF - Last Connected More than a week ago(Grouped By Office).csv"
 $computerCountfn = "ICRAF - Computer Count(Grouped By Office).csv"
 $lastUpdatefn = "ICRAF - Last Updated More than a week ago(Grouped By Office).csv"
 $criticalMachinesfn = "ICRAF - Machine with Critical Threats (Grouped By Office).csv"
 $threatCountfn = "ICRAF - Threat Count (Grouped by Office).csv"
 
-#Get ESET Report
+# Get ESET Report
+<#
+We'll use the data from the csvs above to get Region vs HQ data in required formats
+#>
 $esetReport = Get-ESETReport -reportDirectory $reportDirectoryESET -lastConnection $lastConnectionfn -lastUpdate $lastUpdatefn -threatCount $threatCountfn -criticalMachines $criticalMachinesfn -computerCount $computerCountfn
-
 
 $lastConnectionCountR = $esetReport.LastConnectionRegions
 $lastConnectionCountHQ = $esetReport.LastConnectionHQ

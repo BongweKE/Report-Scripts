@@ -1,19 +1,20 @@
 ﻿# Load the Import-Excel module
 Import-Module -Name ImportExcel
 $reportDate = Get-Date -Format 'MMMM yyyy'
-$location = "Kenya"
-$alertLocation = "ICRAF"
+# $location = "Kenya"
+# $alertLocation = "ICRAF"
 $selectObject = @('Name', 'samAccountName', 'ObjectClass', 'AccountExpirationDate', 'lastLogonDate', 'Enabled', 'PasswordNeverExpires')
 $ICRAF_ExcludedOU = @('OCS Users', 'ICRAF BOT','ICRAF Spouses','Disabled accounts','ICRAF Kenya General Accounts','ICRAF Administrators','ICRAF MFI','ICRAF Meeting Rooms','ICRAF ICT','ICRAF OCS','EC Regreening Project','ICRAF Sharepoint Users','ICRAF Kenya Shared Mailboxes','ICRAF Kenya Service Accounts') #update with KE data
 $ICRAFOU = 'OU=ICRAFHUB,DC=CIFOR-ICRAF,DC=ORG'
 $ICRAFComputersOU = 'OU=Computers,OU=ICRAFHUB,DC=CIFOR-ICRAF,DC=ORG'
-$inactiveDisabledOU = 'OU=Disabled Due To Inactivity,OU=Disabled accounts,OU=ICRAF Kenya,OU=ICRAFHUB,DC=CIFOR-ICRAF,DC=ORG'
+# $inactiveDisabledOU = 'OU=Disabled Due To Inactivity,OU=Disabled accounts,OU=ICRAF Kenya,OU=ICRAFHUB,DC=CIFOR-ICRAF,DC=ORG'
 $csvo365UsageData = 'C:\Users\lkadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\AD Reports\O365 Exchange Mail Usage\'
-###########################################################################################################
-# Change date below to conform with report once this is automated by tasker
-###########################################################################################################
-$csvFileDate = (Get-Date).AddDays(-1).ToString("yyyy-MM-dd")
-$csvFileName = $csvo365UsageData + $csvFileDate + '.csv'
+
+# Get the most recent file in the $csvo365UsageData folder
+$mostRecentFile = Get-ChildItem -Path $csvo365UsageData -File | Sort-Object -Property LastWriteTime -Descending | Select-Object -First 1
+
+# Store the path of the most recent file in a string variable
+$csvFileName= $mostRecentFile.FullName
 ###########################################################################################################
 # Change from Test folder before submiting to Tasker
 ###########################################################################################################
@@ -267,7 +268,8 @@ $alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
 $alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
 $mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
 $subject = 'ICRAF AD Report - ' + $reportDate
-$ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org','s.mariwa@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
+$ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
+# $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org')
 $attachments = @($compressedDirectory)
 $message = @"   
 Dear Administrator,
@@ -307,5 +309,4 @@ Inactive Accounts Over 6 Months.csv
 ForEach-Object { 
     "{0},{1},{2},{3:yyyy-MM-dd},{4:yyyy-MM-dd},{5},{6}" -f $_.Name, $_.samAccountName, $_.ObjectClass, $_.AccountExpirationDate, $_.lastLogonDate, $_.Enabled -eq $true, $_.PasswordNeverExpires -eq $true
   }
-
 #>

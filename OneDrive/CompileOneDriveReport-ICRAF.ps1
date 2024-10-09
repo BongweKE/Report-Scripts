@@ -7,7 +7,7 @@ Import-Module "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Reports\ESET and 
 $reportDate = Get-Date -Format "MMMM dd yyyy"
 
 #Define Report Recipients
-$reportRecipients = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','s.mariwa@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
+$reportRecipients = @('r.kande@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','p.oyuko@cifor-icraf.org','l.kavoo@cifor-icraf.org')
 
 $reportMonth = Get-Date -Format "MMMMyyyy"
 #Define Other Report Directory

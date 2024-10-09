@@ -35,6 +35,7 @@ $mailboxCount = 0
 
 ###########################################################################################################
 # START
+$excludedOURegex = $ICRAF_ExcludedOU -join '|'
 ###########################################################################################################
 
 ###########################################################################################################
@@ -52,11 +53,7 @@ $excludedOURegex = $ICRAF_ExcludedOU -join '|'
 #     $_.LastLogonDate -lt $dormantDate
 # }
 
-$ICRAFDormantAccountsAD = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $ICRAFOU -Properties * | Where-Object {
-    $_.DistinguishedName -notmatch $excludedOURegex -and
-    $_.LastLogonDate -lt $dormantDate
-}
-# Get-ADUser -Filter '(PasswordLastSet -lt $d) -or (LastLogonTimestamp -lt $d)'
+
 $d = [DateTime]::Today.AddDays(-180)
 $ICRAFDormantAccountsAD = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $ICRAFOU -Properties * | Where-Object {
     $_.DistinguishedName -notmatch $excludedOURegex -and
@@ -66,7 +63,28 @@ $ICRAFDormantAccountsAD = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $
     [DateTime]::$_.LastLogonTimestamp -lt $d 
 }
 
+$ICRAFDormantAccounts = @()
+foreach ($account in $ICRAFDormantAccountsAD)
+{    
+    $result = $csvReport| Where-Object { $_.'User Principal Name' -eq $account.UserPrincipalName }
+ 
+    if ($result) { # exists
+        $lastActivity = $result.'Last Activity Date'
+        $lastActivity = [datetime]::ParseExact($lastActivity, 'yyyy-MM-dd', $null)
+        if ($lastActivity -and $lastActivity -lt $d){ # if last activity ni kitambo
+            $ICRAFDormantAccounts += $account
+        }
+        # We add the account to the list of inactive ones if we don't 
+        # find it's Name from outlook csv empty ones     
+    } else { # also add dormant accounts without onedrive activity
+        $ICRAFDormantAccounts += $account
+    }
+}
+
 $ICRAFDormantAccountsAD.count # 99
+$ICRAFDormantAccounts.count # 6
+
+# If we were to check with onedrive, the numbers would reduce
 
 # $ICRAFDormantAccountsAD | Select-Object SamAccountName, Name, LastLogonDate, EmailAddress
 ###########################################################################################################
@@ -76,10 +94,28 @@ $ICRAFDormantAccountsAD.count # 99
 ###########################################################################################################
 $ICRAFBlankLogonAD = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $ICRAFOU -Properties * | Where-Object {
     $_.DistinguishedName -notmatch $excludedOURegex -and
-    $null -eq $_.LastLogonDate
+    ($null -eq $_.LastLogonDate -and $null -eq $_.LastLogonTimestamp)
 }
 
-$ICRAFBlankLogonAD.count # 
+$ICRAFBlankLogon = @()
+foreach ($account in $ICRAFBlankLogonAD)
+{    
+    $result = $csvReport| Where-Object { $_.'User Principal Name' -eq $account.UserPrincipalName }
+ 
+    if ($result) { # exists
+        $lastActivity = $result.'Last Activity Date'
+        $lastActivity = [datetime]::ParseExact($lastActivity, 'yyyy-MM-dd', $null)
+        if ($lastActivity -and $lastActivity -lt $d){ # if last activity ni kitambo
+            $ICRAFBlankLogon += $account
+        }
+        # We add the account to the list of inactive ones if we don't 
+        # find it's Name from outlook csv empty ones     
+    } 
+}
+
+
+$ICRAFBlankLogonAD.count # 128 Onedrive
+$ICRAFBlankLogon.count
 
 #####################################################################################################
 # active accounts that had not changed their passwords in the last 90 days
@@ -88,14 +124,202 @@ $ICRAFBlankLogonAD.count #
 # Newest
 $ICRAFExpiredPwd = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $ICRAFOU -Properties * | Where-Object {
     $_.DistinguishedName -notmatch $excludedOURegex -and 
-    (($_.LastLogonDate -and $_.LastLogonDate -lt (Get-Date).AddDays(-90)) -or
-    ($_.LastLogonTimestamp -and [DateTime]::$_.LastLogonTimestamp -lt [DateTime]::Today.AddDays(-180))) -and # active
+    (($_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-90)) -or
+    ($_.LastLogonTimestamp -and [DateTime]::$_.LastLogonTimestamp -gt [DateTime]::Today.AddDays(-180))) -and # active
     $_.PasswordExpired  -eq $true
 }
 
-$ICRAFExpiredPwd | Select-Object -First 3 # 113
+$ICRAFExpiredPwd.count # 13
+
+$ICRAFExpiredPwd | Select-Object -First 3 
 
 #####################################################################################################
+
+
+
+#####################################################################################################
+#Accounts With Password Set Not To Expire
+# 12 active accounts with passwords that do not expire. 
+#####################################################################################################
+$ICRAFAccounts_PasswordsNeverExpireAD = Search-ADAccount -SearchBase $ICRAFOU -PasswordNeverExpires | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+$ICRAFAccounts_PasswordsNeverExpireAD.count
+# 2
+#####################################################################################################
+
+
+<#
+
+103 active accounts that had not changed their passwords in the last 90 days. 
+#>
+
+#####################################################################################################
+$ICRAFaccountsPassNotChanged90 = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $ICRAFOU -Properties * | Where-Object {
+    $_.DistinguishedName -notmatch $excludedOURegex -and 
+    (($_.LastLogonDate -and $_.LastLogonDate -gt (Get-Date).AddDays(-90)) -or
+    ($_.LastLogonTimestamp -and [DateTime]::$_.LastLogonTimestamp -gt [DateTime]::Today.AddDays(-90))) -and # active
+    ($_.passwordlastset -and [DateTime]::$_.passwordLastSet -gt (Get-Date).AddDays(-90))
+}
+
+$ICRAFaccountsPassNotChanged90.count
+#####################################################################################################
+
+#####################################################################################################
+
+###########################################################################################################
+#Generate Report From Exchange Online Session
+###########################################################################################################
+$userAccountCount = (Get-ADUser -Filter * -SearchBase $ICRAFOU).count
+$computerCount = (Get-ADComputer -Filter * -SearchBase $ICRAFComputersOU).count
+
+# Archive Full Report in dashboard data source
+###########################################################################################################
+# Use test Excel file before we add this to the task scheduler (pipeline)
+###########################################################################################################
+
+# $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org','s.mariwa@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
+$ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org', 'g.kirimi@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
+#$ICRAFReportRecipient = @('b.obaga@cifor-icraf.org')
+#Send Email to Recipients
+$smtpServer = 'SMTP.Office365.com'
+$alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
+$alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
+$mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
+$emailSubject = "AD Audit Report"
+
+<#
+
+- Active Accounts Not Changed Password in 90 Days...: $($ICRAFaccountsPassNotChanged90.Count)
+
+@{SheetName="Didn't change PW in last 90days"; Columns=@("Name", "DistinguishedName", "PasswordLastSet")}
+,
+@{SheetName="Didn't change PW in last 90days"; Columns=@("Name", "DistinguishedName", "PasswordLastSet")}
+
+Append-DataToSheet -sheetName "Didn't change PW in last 90days" -data ($ICRAFaccountsPassNotChanged90 | Select Name, DistinguishedName, PasswordLastSet)
+
+#>
+
+$emailBody = @"
+
+Audit Report Overview:
+
+- Total User Accounts: $userAccountCount
+- Total Computer Accounts: $computerCount
+
+- Dormant Accounts (not logged in for 180 days): $($ICRAFDormantAccounts.Count)
+- Active Accounts with Blank Last Logon Dates: $($ICRAFBlankLogon.Count)
+- AD Accounts with Passwords Set Not to Expire: $($ICRAFAccounts_PasswordsNeverExpireAD.Count)
+- Accounts with Expired Passwords: $($ICRAFExpiredPwd.Count)
+
+
+Please find the detailed report attached.
+
+"@
+
+$ExcelFileDate = (Get-Date).AddDays(-1).ToString("yyyy-MM-dd")
+
+$workbookPath = 'c:\Users\poadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\Audit Reports-CIFORICRAFRASVR\' + $ExcelFileDate + '.xlsx'
+
+# Define the structure of the workbook
+$excelStructure = @(
+    @{SheetName="DormantAccounts"; Columns=@("Name", "DistinguishedName", "LastLogonTimestamp")},
+    @{SheetName="Blank Last Logon Date"; Columns=@("Name", "DistinguishedName", "LastLogonDate")},
+    @{SheetName="Expired Passwords"; Columns=@("Name", "DistinguishedName", "PasswordLastSet")},
+    @{SheetName="Non-expiring passwords"; Columns=@("Name", "DistinguishedName", "PasswordNeverExpires")}
+)
+
+# Create the workbook with pre-named sheets and columns
+foreach ($sheet in $excelStructure) {
+    # Create a dummy row with headers to set up the columns
+    $dummyRow = @{}
+    foreach ($col in $sheet.Columns) {
+        $dummyRow.$col = $null
+    }
+
+    # Export the dummy row to create the sheet and columns
+    $dummyRow | Export-Excel -Path $workbookPath -WorksheetName $sheet.SheetName -AutoSize 
+}
+
+
+# Function to get the last row index in an Excel worksheet
+function Get-LastRow($worksheet) {
+    $usedRange = $worksheet.UsedRange
+    return $usedRange.Rows.Count
+}
+
+# Open the workbook (or create it if it doesn't exist)
+if (-not (Test-Path $workbookPath)) {
+    # If the workbook doesn't exist, create it with pre-named sheets and columns
+    $excelStructure = @(
+        @{SheetName="DormantAccounts"; Columns=@("Name", "DistinguishedName", "LastLogonTimestamp")},
+        @{SheetName="Blank Last Logon Date"; Columns=@("Name", "DistinguishedName", "LastLogonDate")},
+        @{SheetName="Expired Passwords"; Columns=@("Name", "DistinguishedName", "PasswordLastSet")},
+        @{SheetName="Non-expiring passwords"; Columns=@("Name", "DistinguishedName", "PasswordNeverExpires")}
+    )
+
+    foreach ($sheet in $excelStructure) {
+        $dummyRow = @{}
+        foreach ($col in $sheet.Columns) {
+            $dummyRow.$col = $null
+        }
+        $dummyRow | Export-Excel -Path $workbookPath -WorksheetName $sheet.SheetName -AutoSize -NoClobber
+    }
+}
+
+# Function to support Data Append 
+# Specifically gets a given worksheet
+function Get-ExcelWorkSheet {
+    [OutputType([OfficeOpenXml.ExcelWorksheet])]
+    [cmdletBinding()]
+    param (
+        [OfficeOpenXml.ExcelPackage]  $ExcelDocument,
+        [string] $Name
+    )
+    $Data = $ExcelDocument.Workbook.Worksheets | Where { $_.Name -eq $Name }
+    return $Data
+}
+
+
+# Function to append data to an existing worksheet starting from the last row
+function Append-DataToSheet {
+    param (
+        [string]$sheetName,
+        [array]$data
+    )
+
+    # Get the last row index in the worksheet
+    $lastRow = Get-LastRow (Open-ExcelPackage -Path $workbookPath | Get-ExcelWorksheet -WorksheetName $sheetName)
+    $startRow = $lastRow + 1
+
+    # Append data to the worksheet starting from the last row
+    $data | Export-Excel -Path $workbookPath -WorksheetName $sheetName -StartRow $startRow -AutoSize
+}
+
+# Append data to the workbook
+Append-DataToSheet -sheetName "DormantAccounts" -data ($ICRAFDormantAccounts | Select Name, DistinguishedName, LastLogonTimestamp)
+Append-DataToSheet -sheetName "Blank Last Logon Date" -data ($ICRAFBlankLogon | Select Name, DistinguishedName, LastLogonDate)
+Append-DataToSheet -sheetName "Expired Passwords" -data ($ICRAFExpiredPwd | Select Name, DistinguishedName, PasswordLastSet)
+Append-DataToSheet -sheetName "Non-expiring passwords" -data ($ICRAFAccounts_PasswordsNeverExpireAD | Select Name, DistinguishedName, PasswordNeverExpires)
+
+
+
+# Send Email with attachment
+Send-MailMessage -To $ICRAFReportRecipient -From $alertMailUserName -Subject $emailSubject -Body $emailBody -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential -Attachments $workbookPath
+
+<#
+$compressedDirectory
+# organization overview
+$userAccountCount
+$computerCount
+
+$ICRAFDormantAccounts # dormant accounts that had not logged in for the past 6 months (180 days) 
+$ICRAFAccountsNoLastActivity # active accounts with blank last logon dates. 
+$Expired Passwords # active accounts that had not changed their passwords in the last 90 days
+$ICRAFAccounts_PasswordsNeverExpireAD # AD Accounts With Password Set Not To Expire
+$ICRAFAccounts_PasswordsNeverExpire # Onedrive Accounts With Password Set Not To Expire
+$expiredAccounts # expired AD accounts
+#>
+
+<#
 $Days = 90
 $Date = (Get-Date).AddDays(-$Days)
 
@@ -142,7 +366,7 @@ $temp = Get-ADUser -Filter * | Where-Object {
 $temp | Select-Object -Last 5 | Format-Table -AutoSize 
 
 
-$today = Get-Date
+$d = [DateTime]::Today.AddDays(-180)
 
 # Get users with expired passwords
 $expiredAccounts = Get-ADUser -Filter {
@@ -158,9 +382,9 @@ Select-Object -Property "DisplayName",
             $null  # Return null if the attribute is not set
         }
     }} | Where-Object {
-        $_.ExpiryDate -ne $null -and $_.ExpiryDate -lt $today
+        $_.ExpiryDate -ne $null -and $_.ExpiryDate -lt $d
     }
-
+$expiredAccounts.count
 # Output the list of expired accounts
 $expiredAccounts | Format-Table -AutoSize
 # Output the expired accounts
@@ -169,181 +393,4 @@ $expiredAccounts | Format-Table -AutoSize
 
 # Also check that 
 
-
-
-#####################################################################################################
-#Accounts With Password Set Not To Expire
-# 12 active accounts with passwords that do not expire. 
-#####################################################################################################
-$ICRAFAccounts_PasswordsNeverExpireAD = Search-ADAccount -SearchBase $ICRAFOU -PasswordNeverExpires | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
-$ICRAFAccounts_PasswordsNeverExpire = @()
-foreach ($account in $ICRAFAccounts_PasswordsNeverExpireAD) {
-    $searchValue = $account.'Name'
-    $result = $csvReport | Where-Object { $_.$columnName -eq $searchValue }
-
-    # Check if result exists and if the Last Activity Date is more than 90 days ago
-    if ($result -and $result.'Is Delete' -eq 'FALSE') {
-        $ICRAFAccounts_PasswordsNeverExpire += $account
-    }
-}
-
-#####################################################################################################
-
-<#
-
-103 active accounts that had not changed their passwords in the last 90 days. 
 #>
-
-#####################################################################################################
-# Assuming Expired means AccountExpired
-$expiredAccounts = Search-ADAccount -SearchBase $ICRAFOU -AccountExpired | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
-
-<#
-$compressedDirectory
-# organization overview
-$userAccountCount
-$computerCount
-
-$ICRAFDormantAccounts # dormant accounts that had not logged in for the past 6 months (180 days) 
-$ICRAFAccountsNoLastActivity # active accounts with blank last logon dates. 
-$Expired Passwords # active accounts that had not changed their passwords in the last 90 days
-$ICRAFAccounts_PasswordsNeverExpireAD # AD Accounts With Password Set Not To Expire
-$ICRAFAccounts_PasswordsNeverExpire # Onedrive Accounts With Password Set Not To Expire
-$expiredAccounts # expired AD accounts
-#>
-#####################################################################################################
-
-###########################################################################################################
-#Generate Report From Exchange Online Session
-###########################################################################################################
-$userAccountCount = (Get-ADUser -Filter * -SearchBase $ICRAFOU).count
-$computerCount = (Get-ADComputer -Filter * -SearchBase $ICRAFComputersOU).count
-
-# Archive Full Report in dashboard data source
-###########################################################################################################
-# Use test Excel file before we add this to the task scheduler (pipeline)
-###########################################################################################################
-
-# $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org','s.mariwa@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
-# $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org', 'g.kirimi@cifor-icraf.org')
-$ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org')
-#Send Email to Recipients
-$smtpServer = 'SMTP.Office365.com'
-$alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
-$alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
-$mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
-$emailSubject = "AD Audit Report"
-
-
-
-$emailBody = @"
-
-Audit Report Overview:
-
-- Total User Accounts: $userAccountCount
-- Total Computer Accounts: $computerCount
-
-- Dormant Accounts (not logged in for 180 days): $($ICRAFDormantAccounts.Count)
-- Active Accounts with Blank Last Logon Dates: $($ICRAFAccountsNoLastActivity.Count)
-- Active Accounts Not Changed Password in 90 Days: $($Expired Passwords.Count)
-- AD Accounts with Passwords Set Not to Expire: $($ICRAFAccounts_PasswordsNeverExpireAD.Count)
-- OneDrive Accounts with Passwords Set Not to Expire: $($ICRAFAccounts_PasswordsNeverExpire.Count)
-- Expired AD Accounts: $($expiredAccounts.Count)
-
-Please find the detailed report attached.
-
-"@
-
-$ExcelFileDate = (Get-Date).AddDays(-1).ToString("yyyy-MM-dd")
-
-$workbookPath = 'c:\Users\poadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\Audit Reports-CIFORICRAFRASVR\' + $ExcelFileDate + '.xlsx'
-
-# Define the structure of the workbook
-$excelStructure = @(
-    @{SheetName="DormantAccounts"; Columns=@("Name", "LastLogonDate", "DistinguishedName")},
-    @{SheetName="Blank Last Logon Date"; Columns=@("Name", "LastLogonDate", "DistinguishedName")},
-    @{SheetName="Expired Passwords"; Columns=@("Name", "PasswordLastSet", "DistinguishedName")},
-    @{SheetName="Non-expiring passwords"; Columns=@("Name", "PasswordNeverExpires", "DistinguishedName")},
-    @{SheetName="Blank Last Logon Date"; Columns=@("Name", "AccountExpirationDate", "DistinguishedName")}
-)
-
-# Create the workbook with pre-named sheets and columns
-foreach ($sheet in $excelStructure) {
-    # Create a dummy row with headers to set up the columns
-    $dummyRow = @{}
-    foreach ($col in $sheet.Columns) {
-        $dummyRow.$col = $null
-    }
-
-    # Export the dummy row to create the sheet and columns
-    $dummyRow | Export-Excel -Path $workbookPath -WorksheetName $sheet.SheetName -AutoSize 
-}
-
-
-# Function to get the last row index in an Excel worksheet
-function Get-LastRow($worksheet) {
-    $usedRange = $worksheet.UsedRange
-    return $usedRange.Rows.Count
-}
-
-# Open the workbook (or create it if it doesn't exist)
-if (-not (Test-Path $workbookPath)) {
-    # If the workbook doesn't exist, create it with pre-named sheets and columns
-    $excelStructure = @(
-        @{SheetName="DormantAccounts"; Columns=@("Name", "LastLogonDate", "DistinguishedName")},
-        @{SheetName="Blank Last Logon Date"; Columns=@("Name", "LastLogonDate", "DistinguishedName")},
-        @{SheetName="Expired Passwords"; Columns=@("Name", "PasswordLastSet", "DistinguishedName")},
-        @{SheetName="Non-expiring passwords"; Columns=@("Name", "PasswordNeverExpires", "DistinguishedName")},
-        @{SheetName="Blank Last Logon Date"; Columns=@("Name", "AccountExpirationDate", "DistinguishedName")}
-    )
-
-    foreach ($sheet in $excelStructure) {
-        $dummyRow = @{}
-        foreach ($col in $sheet.Columns) {
-            $dummyRow.$col = $null
-        }
-        $dummyRow | Export-Excel -Path $workbookPath -WorksheetName $sheet.SheetName -AutoSize -NoClobber
-    }
-}
-
-# Function to support Data Append 
-# Specifically gets a given worksheet
-function Get-ExcelWorkSheet {
-    [OutputType([OfficeOpenXml.ExcelWorksheet])]
-    [cmdletBinding()]
-    param (
-        [OfficeOpenXml.ExcelPackage]  $ExcelDocument,
-        [string] $Name
-    )
-    $Data = $ExcelDocument.Workbook.Worksheets | Where { $_.Name -eq $Name }
-    return $Data
-}
-
-
-# Function to append data to an existing worksheet starting from the last row
-function Append-DataToSheet {
-    param (
-        [string]$sheetName,
-        [array]$data
-    )
-
-    # Get the last row index in the worksheet
-    $lastRow = Get-LastRow (Open-ExcelPackage -Path $workbookPath | Get-ExcelWorksheet -WorksheetName $sheetName)
-    $startRow = $lastRow + 1
-
-    # Append data to the worksheet starting from the last row
-    $data | Export-Excel -Path $workbookPath -WorksheetName $sheetName -StartRow $startRow -AutoSize
-}
-
-# Append data to the workbook
-Append-DataToSheet -sheetName "DormantAccounts" -data ($ICRAFDormantAccountsAD | Select Name, LastLogonDate, DistinguishedName)
-Append-DataToSheet -sheetName "Blank Last Logon Date" -data ($ICRAFAccountsNoLastActivity | Select Name, LastLogonDate, DistinguishedName)
-Append-DataToSheet -sheetName "Expired Passwords" -data ($Expired Passwords | Select Name, PasswordLastSet, DistinguishedName)
-Append-DataToSheet -sheetName "Non-expiring passwords" -data ($ICRAFAccounts_PasswordsNeverExpireAD | Select Name, PasswordNeverExpires, DistinguishedName)
-Append-DataToSheet -sheetName "Blank Last Logon Date" -data ($expiredAccounts | Select Name, AccountExpirationDate, DistinguishedName)
-
-
-
-# Send Email with attachment
-Send-MailMessage -To $ICRAFReportRecipient -From $alertMailUserName -Subject $emailSubject -Body $emailBody -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential -Attachments $workbookPath
-
