@@ -14,7 +14,7 @@ $csvo365UsageData = 'C:\Users\lkadmin\CIFOR-ICRAF\Information Communication Tech
 $mostRecentFile = Get-ChildItem -Path $csvo365UsageData -File | Sort-Object -Property LastWriteTime -Descending | Select-Object -First 1
 
 # Store the path of the most recent file in a string variable
-$csvFileName= $mostRecentFile.FullName
+$csvFileName = $mostRecentFile.FullName
 ###########################################################################################################
 # Change from Test folder before submiting to Tasker
 ###########################################################################################################
@@ -23,9 +23,75 @@ $reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports
 $reportDirectoryCurrent = $reportDirectory + $reportDate + '\'
 $compressDirectory = $reportDirectoryCurrent + '*'
 $compressedDirectory = $reportDirectoryCurrent + 'ADReport.zip'
-$excUsername = 'CIFORICRAFAutoReport@cifor-icraf.org'
-$excPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
-$excCreds = New-Object System.Management.Automation.PSCredential($excUsername,$excPassword) 
+
+<# 
+###########################################################################################################
+# DO NOT DELETE THESE COMMENTS, VERY IMPORTANT                                                            #
+###########################################################################################################
+Whenever credentials change for CIFORICRAFAutoReport@cifor-icraf.org, we will have to run the lines below
+to ensure that the new credentials are accessible via the task scheduler
+# Prompt for credentials and store them in a variable
+$credential = Get-Credential
+
+# Extract the username and password separately
+$username = $credential.UserName
+$password = $credential.GetNetworkCredential().Password
+
+
+# Create a secure AES key and save it to a file: AES Ensures that we can share the file between Users
+# of our server: i.e LKAdmin and POAdmin can both execute this script without storing the passwords 
+# on the script. 
+
+# NOTE: this is a precursor to having most of our scripts on a github account owned by one of our 
+# service accounts like AutoReports, etc.
+# However, we'll have to ensure that the account with the github account always has a strong pass
+
+
+$keyPath = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\MySecureKey.key"
+$encryptionKey = New-Object Byte[] 32
+[Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($encryptionKey)
+[IO.File]::WriteAllBytes($keyPath, $encryptionKey)
+
+# Make The Password Secure Using our Encryption algo
+$securePassword = $credential.Password | ConvertFrom-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
+
+# Store the username and encrypted password in a custom XML file
+$customCredential = New-Object PSObject -Property @{
+    Username = $credential.UserName
+    Password = $securePassword
+}
+$customCredential | Export-Clixml -Path "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\SharedCredential.xml"
+
+# Future: Save Both in separate locations. Essentially, this is what'll ensure that we have safety. 
+# For now, this is just a test to ensure that our scripts can now all go Credential Free
+###########################################################################################################
+#>
+
+# Make The Password Secure Using our Encryption algo
+$securePassword = $credential.Password | ConvertFrom-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
+
+# Store the username and encrypted password in a custom XML file
+$customCredential = New-Object PSObject -Property @{
+    Username = $credential.UserName
+    Password = $securePassword
+}
+$customCredential | Export-Clixml -Path "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\SharedCredential.xml"
+
+# Accessing Credentials using stored ones:
+# Path to the shared credential file and encryption key
+$sharedCredentialPath = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\SharedCredential.xml"
+$keyPath = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\MySecureKey.key"
+
+# Read the encrypted credential
+$customCredential = Import-Clixml -Path $sharedCredentialPath
+
+# Decrypt the password using the shared encryption key
+$decryptedPassword = $customCredential.Password | ConvertTo-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
+
+# Create a new PSCredential object for use in the script
+$mailCredentials = New-Object System.Management.Automation.PSCredential ($customCredential.Username, $decryptedPassword)
+
+
 
 ###########################################################################################################
 # Types of A/Cs
@@ -33,15 +99,15 @@ $excCreds = New-Object System.Management.Automation.PSCredential($excUsername,$e
 
 #Expired Accounts
 
-$ICRAFExpiredAccounts = Search-ADAccount -SearchBase $ICRAFOU -AccountExpired | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+$ICRAFExpiredAccounts = Search-ADAccount -SearchBase $ICRAFOU -AccountExpired | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
 
 #Expired Accounts Above Six Month
 
-$ICRAFExpiredAccounts_over180 = ([array](Search-ADAccount -SearchBase $ICRAFOU -AccountExpired | Where 'AccountExpirationDate' -lt ((get-date).AddDays(-180)) | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|'))) 
+$ICRAFExpiredAccounts_over180 = ([array](Search-ADAccount -SearchBase $ICRAFOU -AccountExpired | Where-Object 'AccountExpirationDate' -lt ((get-date).AddDays(-180)) | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|'))) 
 
 #Accounts Without Expiry Date
 
-$ICRAFNonExpiringAccounts = ([array](Get-ADUser -LDAPFilter '(|(accountExpires=0)(accountExpires=9223372036854775807))' -SearchBase $ICRAFOU | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')))
+$ICRAFNonExpiringAccounts = ([array](Get-ADUser -LDAPFilter '(|(accountExpires=0)(accountExpires=9223372036854775807))' -SearchBase $ICRAFOU | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')))
 
 #Inactive Accounts: 30 dAYS
 
@@ -53,15 +119,15 @@ $ICRAFInactiveAccounts_over180 = @()
 
 #Inactive Computers For 180 Days
 
-$ICRAFInactiveComputers_over180 = Search-ADAccount -SearchBase $ICRAFComputersOU -AccountInactive -TimeSpan 180.00:00:00 -ComputersOnly | Where 'Enabled' -eq 'True' 
+$ICRAFInactiveComputers_over180 = Search-ADAccount -SearchBase $ICRAFComputersOU -AccountInactive -TimeSpan 180.00:00:00 -ComputersOnly | Where-Object 'Enabled' -eq 'True' 
 
 #Accounts With Password Set Not To Expire
 
-$ICRAFAccounts_PasswordsNeverExpire = Search-ADAccount -SearchBase $ICRAFOU -PasswordNeverExpires | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+$ICRAFAccounts_PasswordsNeverExpire = Search-ADAccount -SearchBase $ICRAFOU -PasswordNeverExpires | Where-Object 'Enabled' -eq 'True' | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
 
 #Accounts Disabled for 2 months and above
 
-$ICRAFDisabledAccounts_over60 = Search-ADAccount -SearchBase $ICRAFOU -AccountDisabled | Where "LastLogonDate" -lt ((get-date).AddDays(-60))
+$ICRAFDisabledAccounts_over60 = Search-ADAccount -SearchBase $ICRAFOU -AccountDisabled | Where-Object "LastLogonDate" -lt ((get-date).AddDays(-60))
 
 #Placeholder for accounts with null last activity
 $ICRAFAccountsNoLastActivity = @()
@@ -76,27 +142,27 @@ $mailboxCount = 0
 foreach ($Account in $csvReport)
 {
     $emailAddress = $Account.'User Principal Name'
-    $name = $Account.'Display Name'
+    # $name = $Account.'Display Name'
     $lastActivity = $Account.'Last Activity Date'
     try {
         $lastActivity = [datetime]::ParseExact($lastActivity, 'yyyy-MM-dd', $null)
         if ($lastActivity -lt (Get-Date).AddDays(-30)) {
         # USERS inactive for 30 days will be added to $ICRAFInactiveAccounts
-        $ICRAFInactiveAccounts += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, lastLogonDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+        $ICRAFInactiveAccounts += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, lastLogonDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where-Object 'Enabled' -eq 'True' | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
         
         }
         elseIf($lastActivity -lt (Get-Date).AddDays(-180)) {
         # USERS inactive for 180 days will be added to $ICRAFInactiveAccounts_over180
-        $ICRAFInactiveAccounts_over180 += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, lastLogonDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+        $ICRAFInactiveAccounts_over180 += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, lastLogonDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where-Object 'Enabled' -eq 'True' | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
 
         }
         $theUserMailbox = Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties * -SearchBase $ICRAFOU
-        if ($theUserMailbox -ne $null) {
+        if ($null -eq $theUserMailbox) {
             $mailboxCount += 1
         }
     } catch {
         # Note that fetch/write problems for these a/cs could be caused by lack of key details
-        $ICRAFAccountsNoLastActivity += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+        $ICRAFAccountsNoLastActivity += Get-ADUser -Filter{UserPrincipalName -eq $emailAddress} -Properties Name, samAccountName, ObjectClass, AccountExpirationDate, Enabled, PasswordNeverExpires -SearchBase $ICRAFOU | Where-Object 'Enabled' -eq 'True' | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
         # Write-Host $emailAddress" has invalid last activity date"
     }
 }
@@ -111,7 +177,7 @@ Explanation for future updates:
 #>
 ###########################################################################################################
 
-$ICRAFInactiveAccountsAD = Search-ADAccount -SearchBase $ICRAFOU -AccountInactive -TimeSpan 30.00:00:00 -UsersOnly | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+$ICRAFInactiveAccountsAD = Search-ADAccount -SearchBase $ICRAFOU -AccountInactive -TimeSpan 30.00:00:00 -UsersOnly | Where-Object 'Enabled' -eq 'True' | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
 
 # Column on the original csv which we want to use for comparison
 $columnName = 'Display Name'
@@ -124,14 +190,14 @@ foreach ($account in $ICRAFInactiveAccountsAD)
  
     $result = $csvReport| Where-Object { $_.$columnName -eq $searchValue }
  
-    if ($result -eq $null) {
+    if ($null -eq $result) {
         # We add the account to the list of inactive ones if we don't 
         # find it's Name from outlook csv empty ones
          $ICRAFInactiveAccounts += $account
     }
 }
 
-$ICRAFInactiveAccountsAD_180 = Search-ADAccount -SearchBase $ICRAFOU -AccountInactive -TimeSpan 180.00:00:00 -UsersOnly | Where 'Enabled' -eq 'True' | Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
+$ICRAFInactiveAccountsAD_180 = Search-ADAccount -SearchBase $ICRAFOU -AccountInactive -TimeSpan 180.00:00:00 -UsersOnly | Where-Object 'Enabled' -eq 'True' | Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|')
 
 
 foreach ($account in $ICRAFInactiveAccountsAD_180)
@@ -141,7 +207,7 @@ foreach ($account in $ICRAFInactiveAccountsAD_180)
  
     $result = $csvReport| Where-Object { $_.$columnName -eq $searchValue }
  
-    if ($result -eq $null) {
+    if ($null -eq $result) {
         # We add the account to the list of inactive ones if we don't 
         # find it's Name from outlook csv empty ones
         $ICRAFInactiveAccounts_over180 += $account
@@ -239,14 +305,14 @@ Disabled Accounts Over 2 Months: $($ICRAFDisabledAccounts_over60.Count)
 #Generate Report Files
 #Create Directory
 mkdir $reportDirectoryCurrent -Force
-$ICRAFExpiredAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Expired Accounts.csv') -NoTypeInformation
-$ICRAFExpiredAccounts_over180 | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Expired Accounts Over 6 Months.csv') -NoTypeInformation
-$ICRAFNonExpiringAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Accounts Without Expire Date.csv') -NoTypeInformation
-$ICRAFInactiveAccounts | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Inactive Accounts.csv') -NoTypeInformation
-$ICRAFInactiveAccounts_over180 | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Inactive Accounts Over 6 Months.csv') -NoTypeInformation
-$ICRAFInactiveComputers_over180 | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Inactive Computers Over 6 Months.csv') -NoTypeInformation
-$ICRAFAccounts_PasswordsNeverExpire | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Accounts With Non Expiring Passwords.csv') -NoTypeInformation
-$ICRAFDisabledAccounts_over60 | Select $selectObject | Export-Csv ($reportDirectoryCurrent + 'Disabled Accounts Over 2 Months.csv') -NoTypeInformation
+$ICRAFExpiredAccounts | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Expired Accounts.csv') -NoTypeInformation
+$ICRAFExpiredAccounts_over180 | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Expired Accounts Over 6 Months.csv') -NoTypeInformation
+$ICRAFNonExpiringAccounts | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Accounts Without Expire Date.csv') -NoTypeInformation
+$ICRAFInactiveAccounts | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Inactive Accounts.csv') -NoTypeInformation
+$ICRAFInactiveAccounts_over180 | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Inactive Accounts Over 6 Months.csv') -NoTypeInformation
+$ICRAFInactiveComputers_over180 | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Inactive Computers Over 6 Months.csv') -NoTypeInformation
+$ICRAFAccounts_PasswordsNeverExpire | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Accounts With Non Expiring Passwords.csv') -NoTypeInformation
+$ICRAFDisabledAccounts_over60 | Select-Object $selectObject | Export-Csv ($reportDirectoryCurrent + 'Disabled Accounts Over 2 Months.csv') -NoTypeInformation
 $csvReport | Export-Csv ($reportDirectoryCurrent + 'Exchange Activity Data.csv') -NoTypeInformation
 $ICRAFAccountsNoLastActivity | Export-Csv ($reportDirectoryCurrent + 'Accounts Without Last Activity on o365 Exchange.csv') -NoTypeInformation
 $ADFullReport | Export-Csv ($reportDirectoryCurrent + 'Full Report.csv') -NoTypeInformation
@@ -259,14 +325,11 @@ Compress-Archive -Path $compressDirectory -DestinationPath $compressedDirectory 
 # Change to `info_msg` once you finish testing
 ###########################################################################################################
 #The below strings are appended as they are (including the reportdate variable) in the message body. I have returned it as it was in line 277. You could find a fix for that in future.
-$info_msg = 'Please find ICRAF Active Directory report for $reportDate. You can use the attached report for further details.'
-$test_info_msg = 'This is a routine test Please find ICRAF Active Directory report for $reportDate. You can use the attached TEST report for further details.'
+$info_msg = "Please find ICRAF Active Directory report for $reportDate. You can use the attached report for further details."
+# $test_info_msg = 'This is a routine test Please find ICRAF Active Directory report for $reportDate. You can use the attached TEST report for further details.'
 
 #Send Email to Recipients
 $smtpServer = 'SMTP.Office365.com'
-$alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
-$alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
-$mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
 $subject = 'ICRAF AD Report - ' + $reportDate
 $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
 # $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org')
@@ -274,7 +337,7 @@ $attachments = @($compressedDirectory)
 $message = @"   
 Dear Administrator,
 
-Please find ICRAF Active Directory report for $reportDate. You can use the attached report for further details. `r`n
+$info_msg `r`n
 ------------------------------------------------
 $reportBody
 ------------------------------------------------
@@ -282,7 +345,7 @@ $reportBody
 CIFOR ICRAF Auto Report
 "@
 
-Send-MailMessage -to $ICRAFReportRecipient -From $alertMailUserName -Subject $subject -Body $message -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential -Attachments $attachments
+Send-MailMessage -to $ICRAFReportRecipient -From $alertMailUserName -Subject $subject -Body $message -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredentials -Attachments $attachments
 <#
 Source File 
 C:\Users\lkadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\AD Reports\O365 Exchange Mail Usage
