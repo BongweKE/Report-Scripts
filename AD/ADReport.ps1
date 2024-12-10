@@ -18,8 +18,8 @@ $csvFileName = $mostRecentFile.FullName
 ###########################################################################################################
 # Change from Test folder before submiting to Tasker
 ###########################################################################################################
-$reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF\Test'
-# $reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF\'
+# $reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF\Test'
+$reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF\'
 $reportDirectoryCurrent = $reportDirectory + $reportDate + '\'
 $compressDirectory = $reportDirectoryCurrent + '*'
 $compressedDirectory = $reportDirectoryCurrent + 'ADReport.zip'
@@ -67,31 +67,33 @@ $customCredential | Export-Clixml -Path "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF
 ###########################################################################################################
 #>
 
-# Make The Password Secure Using our Encryption algo
-$securePassword = $credential.Password | ConvertFrom-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
+<#
+Add this back when you figure it out
 
-# Store the username and encrypted password in a custom XML file
-$customCredential = New-Object PSObject -Property @{
-    Username = $credential.UserName
-    Password = $securePassword
-}
-$customCredential | Export-Clixml -Path "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\SharedCredential.xml"
-
-# Accessing Credentials using stored ones:
-# Path to the shared credential file and encryption key
-$sharedCredentialPath = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\SharedCredential.xml"
+# Paths to the stored key and the credentials file
 $keyPath = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\MySecureKey.key"
+$credentialPath = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Secure\SharedCredential.xml"
 
-# Read the encrypted credential
-$customCredential = Import-Clixml -Path $sharedCredentialPath
+# Read the encryption key from the file
+$encryptionKey = [System.IO.File]::ReadAllBytes($keyPath)
 
-# Decrypt the password using the shared encryption key
-$decryptedPassword = $customCredential.Password | ConvertTo-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
+# Import the XML containing the saved credentials
+$savedCredential = Import-Clixml -Path $credentialPath
 
-# Create a new PSCredential object for use in the script
-$mailCredentials = New-Object System.Management.Automation.PSCredential ($customCredential.Username, $decryptedPassword)
+# Decrypt the password using the key
+$securePassword = ConvertFrom-SecureString -SecureString $savedCredential.Password -Key $encryptionKey
 
+$savedCredential.Password | ConvertTo-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
 
+$securePassword = $savedCredential.Password | ConvertFrom-SecureString -Key ([System.IO.File]::ReadAllBytes($keyPath))
+
+# Create a PSCredential object using the decrypted password
+$mailCredentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $alertMailUserName, $alertMailPassword
+#>
+
+$alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
+$alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
+$mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
 
 ###########################################################################################################
 # Types of A/Cs
@@ -321,18 +323,18 @@ $ADFullReport | Export-Csv ($reportDirectoryCurrent + 'Full Report.csv') -NoType
 Compress-Archive -Path $compressDirectory -DestinationPath $compressedDirectory -Force
 
 
-###########################################################################################################
-# Change to `info_msg` once you finish testing
-###########################################################################################################
+
 #The below strings are appended as they are (including the reportdate variable) in the message body. I have returned it as it was in line 277. You could find a fix for that in future.
-$info_msg = "Please find ICRAF Active Directory report for $reportDate. You can use the attached report for further details."
+$info_msg = "Please find ICRAF Active Directory report for $reportDate . You can use the attached report for further details."
 # $test_info_msg = 'This is a routine test Please find ICRAF Active Directory report for $reportDate. You can use the attached TEST report for further details.'
 
 #Send Email to Recipients
 $smtpServer = 'SMTP.Office365.com'
 $subject = 'ICRAF AD Report - ' + $reportDate
-$ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org','p.oyuko@cifor-icraf.org','r.kande@cifor-icraf.org')
+$ICRAFReportRecipient = @('r.kande@cifor-icraf.org', 'p.oyuko@cifor-icraf.org', 'c.mwangi@cifor-icraf.org', 'l.kavoo@cifor-icraf.org', 'servicedesk@cifor-icraf.org', 'b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org')
+# $ICRAFReportRecipient = @('p.oyuko@cifor-icraf.org', 'c.mwangi@cifor-icraf.org', 'l.kavoo@cifor-icraf.org', 'servicedesk@cifor-icraf.org', 'b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org')
 # $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org','b.obaga@cifor-icraf.org','g.kirimi@cifor-icraf.org')
+# $ICRAFReportRecipient = @('b.obaga@cifor-icraf.org')
 $attachments = @($compressedDirectory)
 $message = @"   
 Dear Administrator,
@@ -345,7 +347,7 @@ $reportBody
 CIFOR ICRAF Auto Report
 "@
 
-Send-MailMessage -to $ICRAFReportRecipient -From $alertMailUserName -Subject $subject -Body $message -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredentials -Attachments $attachments
+Send-MailMessage -to $ICRAFReportRecipient -From $alertMailUserName -Subject $subject -Body $message -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential -Attachments $attachments
 <#
 Source File 
 C:\Users\lkadmin\CIFOR-ICRAF\Information Communication Technology (ICT) - Reports Archive\AD Reports\O365 Exchange Mail Usage

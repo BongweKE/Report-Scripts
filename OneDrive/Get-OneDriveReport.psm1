@@ -35,11 +35,11 @@ $icrafUsersCount = 0
 [hashtable]$oneDriveReportAll = @{}
 
 #Get Report Directory
-$ReportDate = (Get-Date).AddDays(-1).ToString("yyyy-MM-dd")
-$reportDirectory = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Sources\OneDrive\CIFOR-ICRAF OneDrive Bi-Weekly Usage Report "+ $ReportDate +".csv"
-
+# $ReportDate = (Get-Date).AddDays(-1).ToString("yyyy-MM-dd")
+$reportDirectory = "C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Sources\OneDrive\"
+$reportFile = Get-ChildItem -Path $reportDirectory -File | Sort-Object -Property LastWriteTime -Descending | Select-Object -First 1
 #Get Report File
-$csvReport = Import-Csv -Path $reportDirectory
+$csvReport = Import-Csv -Path $reportFile
 $UPN = 'Owner Principal Name' ###changed from 'PrincipalName' to 'Owner Principal Name' as per the CGNET changes to email address attribute
 
 #Get Report Date From File 

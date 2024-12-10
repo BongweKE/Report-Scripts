@@ -196,6 +196,7 @@ $alertMailUserName = 'CIFORICRAFAutoReport@cifor-icraf.org'
 $alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
 $mailCredential = New-Object System.Management.Automation.PSCredential($alertMailUserName,$alertMailPassword)
 $subject = 'CIFORICRAF Privileged Accounts AD Report - ' + $reportDate
+
 $ICRAFReportRecipient = @('z.abidin@cifor-icraf.org','r.kande@cifor-icraf.org','p.oyuko@cifor-icraf.org','t.bandradi@cifor-icraf.org','c.mwangi@cifor-icraf.org','l.kavoo@cifor-icraf.org','i.dewantara@cifor-icraf.org','b.obaga@cifor-icraf.org')
 # $ICRAFReportRecipient = @('l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org')
 # $ICRAFReportRecipient = @('b.obaga@cifor-icraf.org')

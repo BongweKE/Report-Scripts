@@ -13,17 +13,23 @@ $ICRAFOU = 'OU=ICRAFHUB,DC=CIFOR-ICRAF,DC=ORG'
 $inactiveDisabledOU = 'OU=Disabled Due To Inactivity,OU=Disabled accounts,OU=ICRAF Kenya,OU=ICRAFHUB,DC=CIFOR-ICRAF,DC=ORG'
 $reportDirectory = 'C:\Users\lkadmin\OneDrive - CIFOR-ICRAF\Desktop\Auto Reports\Report Results\AD\ICRAF\'
 $reportDirectoryCurrent = $reportDirectory + $reportDate + '\'
-$ICRAFAlertRecipients = @('s.mariwa@cifor-icraf.org', 'p.oyuko@cifor-icraf.org', 'l.kavoo@cifor-icraf.org', 'r.kande@cifor-icraf.org', 'c.mwangi@cifor-icraf.org','servicedesk@cifor-icraf.org') #update with cleanup alert recepients
+
+
+$reportRecipients = @('r.kande@cifor-icraf.org','servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','p.oyuko@cifor-icraf.org','l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org', 'g.kirimi@cifor-icraf.org')
+# $reportRecipients = @('servicedesk@cifor-icraf.org','c.mwangi@cifor-icraf.org','p.oyuko@cifor-icraf.org','l.kavoo@cifor-icraf.org')
+# $reportRecipients = @('l.kavoo@cifor-icraf.org', 'b.obaga@cifor-icraf.org')
+# $reportRecipients = @('b.obaga@cifor-icraf.org')
+$ICRAFAlertRecipients = $reportRecipients 
 $date_180_days_ago = (get-date).AddDays(-180)
 
 #Inactive Accounts For 180 Days
 $ICRAFInactiveAccounts_over180_1 = Get-ADUser -SearchBase $ICRAFOU -Filter {LastLogonDate -lt $date_180_days_ago} -Properties * | 
-Where 'Enabled' -eq 'True' |
-Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|') |
-Where Name -notin $Mac_usernames |
-Where Name -notin $non_ad_login_usernames |
-Where WhenCreated -lt (Get-Date).AddDays(-30) |
-Select DistinguishedName, Enabled, GivenName, Name, SamAccountName, Surname, UsePrincipalName, WhenCreated
+Where-Object 'Enabled' -eq 'True' |
+Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|') |
+Where-Object Name -notin $Mac_usernames |
+Where-Object Name -notin $non_ad_login_usernames |
+Where-Object WhenCreated -lt (Get-Date).AddDays(-30) |
+Select-Object DistinguishedName, Enabled, GivenName, Name, SamAccountName, Surname, UsePrincipalName, WhenCreated
 
 if($ICRAFInactiveAccounts_over180_1.count -gt 0)
 {
@@ -47,12 +53,12 @@ Start-Sleep -Seconds $firstNotficationDelay
 
 #Send Reminder
 $ICRAFInactiveAccounts_over180_2 = Get-ADUser -SearchBase $ICRAFOU -Filter {LastLogonDate -lt $date_180_days_ago} -Properties * | 
-Where 'Enabled' -eq 'True' |
-Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|') |
-Where Name -notin $Mac_usernames |
-Where Name -notin $non_ad_login_usernames |
-Where WhenCreated -lt (Get-Date).AddDays(-30) |
-Select DistinguishedName, Enabled, GivenName, Name, SamAccountName, Surname, UsePrincipalName, WhenCreated
+Where-Object 'Enabled' -eq 'True' |
+Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|') |
+Where-Object Name -notin $Mac_usernames |
+Where-Object Name -notin $non_ad_login_usernames |
+Where-Object WhenCreated -lt (Get-Date).AddDays(-30) |
+Select-Object DistinguishedName, Enabled, GivenName, Name, SamAccountName, Surname, UsePrincipalName, WhenCreated
 
 $reportString = $ICRAFInactiveAccounts_over180_2.Name
 $reportString = $reportString -join "`n"
@@ -72,12 +78,12 @@ Start-Sleep -Seconds $secondNotificationDelay
 
 #Send Notice of Disabled Accounts
 $ICRAFInactiveAccounts_over180_3 = Get-ADUser -SearchBase $ICRAFOU -Filter {LastLogonDate -lt $date_180_days_ago} -Properties * | 
-Where 'Enabled' -eq 'True' |
-Where 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|') |
-Where Name -notin $Mac_usernames |
-Where Name -notin $non_ad_login_usernames |
-Where WhenCreated -lt (Get-Date).AddDays(-30) |
-Select DistinguishedName, Enabled, GivenName, Name, SamAccountName, Surname, UsePrincipalName, WhenCreated
+Where-Object 'Enabled' -eq 'True' |
+Where-Object 'DistinguishedName' -NotMatch ($ICRAF_ExcludedOU -join '|') |
+Where-Object Name -notin $Mac_usernames |
+Where-Object Name -notin $non_ad_login_usernames |
+Where-Object WhenCreated -lt (Get-Date).AddDays(-30) |
+Select-Object DistinguishedName, Enabled, GivenName, Name, SamAccountName, Surname, UsePrincipalName, WhenCreated
 
 $reportString = $ICRAFInactiveAccounts_over180_3.Name
 $reportString = $reportString -join "`n"
@@ -90,6 +96,11 @@ $ICRAFInactiveAccounts_over180_3 | Export-Csv -Path $inactiveUsers_Report -NoTyp
 #Send alert on user accounts being disabled. 
 Send-Alert -recipients $ICRAFAlertRecipients -reportDirectory $inactiveUsers_Report -inactiveUsers $reportString -daysToCleanUp 0
 
+<#
+----------------------------------------------------------------------------------
+Account-Disabling uses the $inactiveUsers_Report to disable said users
+----------------------------------------------------------------------------------
+#>
 Account-Disabling -reportDirectory $inactiveUsers_Report
 }
 else

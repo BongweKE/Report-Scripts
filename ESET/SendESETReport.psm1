@@ -1,6 +1,6 @@
 ﻿function Send-ESETReport
 {
-    param ($recipients,$reportBody)
+    param ($recipients,$reportBody,$attachmentFp)
     $smtpServer = 'SMTP.Office365.com'
     $alertMailUserName = 'CIFORICRAFAutoreport@cifor-icraf.org'
     $alertMailPassword = ConvertTo-SecureString -String 'Winter2023' -AsPlainText -Force #Change to secure mode credential after testing
@@ -18,6 +18,6 @@ $reportBody
 CIFOR ICRAF Auto Report
 "@
 
-    Send-MailMessage -to $recipients -From $alertMailUserName -Subject $subject -Body $message -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential
+    Send-MailMessage -to $recipients -From $alertMailUserName -Subject $subject -Body $message -Attachments $attachmentFp -SmtpServer $smtpServer -Port 587 -UseSsl -Credential $mailCredential
 }
 Export-ModuleMember -Function 'Send-ESETReport'
