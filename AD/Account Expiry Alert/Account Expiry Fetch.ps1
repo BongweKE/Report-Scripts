@@ -290,5 +290,5 @@ $ICRAFExpiring_1Day | ForEach-Object {
     $Accounts_Nearing_Expiry += $accounts_expiring_in_1Day
 }
 
-$Accounts_Nearing_Expiry | Select-Object EmailAddress, SupervisorEmailAddress, HrFocalPoint, AccountExpiry | Format-Table -AutoSize
-# Send-AccountExpiryAlert -accounts_to_alert $Accounts_Nearing_Expiry
+# $Accounts_Nearing_Expiry | Select-Object EmailAddress, SupervisorEmailAddress, HrFocalPoint, AccountExpiry | Format-Table -AutoSize
+Send-AccountExpiryAlert -accounts_to_alert $Accounts_Nearing_Expiry
